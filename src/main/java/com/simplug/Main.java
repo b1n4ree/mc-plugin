@@ -1,5 +1,7 @@
 package com.simplug;
 
+import com.simplug.data.dao.PlayerDataDao;
+import com.simplug.data.entity.PlayerData;
 import de.tr7zw.nbtapi.NBTItem;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -16,8 +18,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class Main  extends JavaPlugin {
@@ -28,6 +36,10 @@ public class Main  extends JavaPlugin {
 
     private static Logger logger;
 
+    private SessionFactory sessionFactory;
+
+    private PlayerDataDao playerDataDao;
+
     public static Logger loggerGet() {
         return logger;
     }
@@ -36,6 +48,8 @@ public class Main  extends JavaPlugin {
     public void onEnable() {
 
         instance = this;
+        sessionFactory = loadSessionFactory();
+        playerDataDao = new PlayerDataDao(sessionFactory);
         logger = super.getLogger();
         logger.info("Start SimPlug");
         Bukkit.getPluginManager().registerEvents(new KillEvent(), this);
@@ -56,7 +70,7 @@ public class Main  extends JavaPlugin {
                 villager.setCustomNameVisible(true);
                 villager.setCustomName("Damn");
 
-            }else if (cmd.getName().equalsIgnoreCase("arena")) {
+            } else if (cmd.getName().equalsIgnoreCase("arena")) {
 
                 logger.info(player.getLocation().getWorld().getName());
                 player.teleport(new Location(player.getWorld(), 10, 88, 17));
@@ -78,22 +92,46 @@ public class Main  extends JavaPlugin {
                 ArrayList<String> lore = new ArrayList<>();
 
                 TextComponent textComponentSword = Component.text()
-                                .content("Crit chance=" )
+                                .content("Crit chance=200")
                                         .color(TextColor.color(0, 255, 0)).build()
                                 .append(Component.text()
-                                        .content("Crit damage=" )
-                                        .color(TextColor.color(0, 255, 0)).build());
+                                        .content("Crit damage=200" )
+                                        .color(TextColor.color(20, 130, 200)).build());
 
-                sword.lore().add(textComponentSword);
+                swordItemMeta.lore(Arrays.asList(textComponentSword));
+                sword.setItemMeta(swordItemMeta);
+
 //                lore.add("CritChance" + swordNbt.getDouble("CritChance"));
 //                lore.add("CritDamage" + swordNbt.getDouble("CritDamage"));
 //                sword.setLore(lore);
                 PlayerInventory playerInventory = player.getInventory();
                 playerInventory.addItem(sword);
 
+                playerDataDao.save(new PlayerData(player.getName()));
+
             }
             return true;
 
         } return false;
+    }
+
+    private SessionFactory loadSessionFactory() {
+
+        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+                .configure()
+                .build();
+
+        try {
+
+            MetadataSources sources = new MetadataSources(registry);
+            sources.addAnnotatedClass(PlayerData.class);
+
+            return sources.buildMetadata().buildSessionFactory();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            StandardServiceRegistryBuilder.destroy(registry);
+            throw new RuntimeException(e);
+        }
     }
 }
