@@ -46,15 +46,15 @@ public class KillEvent implements Listener {
 
         }
     }
-    @EventHandler
-    public void onInventoryOpen(InventoryOpenEvent e) {
-        Player p =(Player) e.getPlayer();
-        if(e.getInventory().getType() == InventoryType.CHEST) {
-            e.setCancelled(true);
-            p.sendMessage("chest");
-        } else {
-            p.sendMessage("not chest!");
-            return;
-        }
-    }
+//    @EventHandler
+//    public void onInventoryOpen(InventoryOpenEvent e) {
+//        Player p =(Player) e.getPlayer();
+//        if(e.getInventory().getType() == InventoryType.CHEST) {
+//            e.setCancelled(true);
+//            p.sendMessage("chest");
+//        } else {
+//            p.sendMessage("not chest!");
+//            return;
+//        }
+//    }
 }

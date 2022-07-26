@@ -19,3 +19,7 @@ commands:
   jitel:
     description: Add villager
     usage: /villager
+
+  test:
+    description: Test command
+    usage: /test

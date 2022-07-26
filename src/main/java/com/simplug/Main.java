@@ -1,7 +1,9 @@
 package com.simplug;
 
+import com.simplug.command.TestCommand;
 import com.simplug.data.dao.PlayerDataDao;
 import com.simplug.data.entity.PlayerData;
+import com.simplug.gui.TestGui;
 import de.tr7zw.nbtapi.NBTItem;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -54,6 +56,11 @@ public class Main  extends JavaPlugin {
         logger.info("Start SimPlug");
         Bukkit.getPluginManager().registerEvents(new KillEvent(), this);
         Bukkit.getPluginManager().registerEvents(new DamageEvent(), this);
+        registerCommands();
+    }
+
+    private void registerCommands() {
+        this.getCommand("test").setExecutor(new TestCommand(this, logger, playerDataDao, new TestGui(this)));
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
@@ -113,6 +120,10 @@ public class Main  extends JavaPlugin {
             return true;
 
         } return false;
+    }
+
+    public static Main getInstance() {
+        return instance;
     }
 
     private SessionFactory loadSessionFactory() {
