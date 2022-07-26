@@ -41,11 +41,36 @@
 <!--            <scope>provided</scope>-->
 <!--        </dependency>-->
     </dependencies>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>binary-profile</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <spring.profiles.active>docker</spring.profiles.active>
+                <server.plugins.path>/home/alex/Desktop/paper-1.18.2/plugins</server.plugins.path>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>vlamorsky-profile</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <server.plugins.path>/home/vlamorsky/jukovproject/game/server/plugins</server.plugins.path>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
@@ -77,7 +102,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.2</version>
                 <configuration>
-                    <outputDirectory>/home/alex/Desktop/paper-1.18.2/plugins</outputDirectory>
+                    <outputDirectory>${server.plugins.path}</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
