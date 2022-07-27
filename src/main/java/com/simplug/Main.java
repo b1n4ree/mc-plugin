@@ -4,6 +4,8 @@ import com.simplug.command.TestCommand;
 import com.simplug.data.dao.PlayerDataDao;
 import com.simplug.data.entity.PlayerData;
 import com.simplug.gui.TestGui;
+import com.simplug.listener.PlayerQuitAndJoinListener;
+import com.simplug.service.PlayerDataService;
 import de.tr7zw.nbtapi.NBTItem;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -24,7 +26,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +41,8 @@ public class Main  extends JavaPlugin {
 
     private SessionFactory sessionFactory;
 
+    private PlayerDataService playerDataService;
+
     private PlayerDataDao playerDataDao;
 
     public static Logger loggerGet() {
@@ -54,13 +57,17 @@ public class Main  extends JavaPlugin {
         playerDataDao = new PlayerDataDao(sessionFactory);
         logger = super.getLogger();
         logger.info("Start SimPlug");
+
+        playerDataService = new PlayerDataService(playerDataDao, logger);
+
         Bukkit.getPluginManager().registerEvents(new KillEvent(), this);
         Bukkit.getPluginManager().registerEvents(new DamageEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerQuitAndJoinListener(playerDataService, logger), this);
         registerCommands();
     }
 
     private void registerCommands() {
-        this.getCommand("test").setExecutor(new TestCommand(this, logger, playerDataDao, new TestGui(this)));
+        this.getCommand("test").setExecutor(new TestCommand(this, logger, playerDataService, new TestGui(this)));
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
@@ -113,8 +120,6 @@ public class Main  extends JavaPlugin {
 //                sword.setLore(lore);
                 PlayerInventory playerInventory = player.getInventory();
                 playerInventory.addItem(sword);
-
-                playerDataDao.save(new PlayerData(player.getName()));
 
             }
             return true;

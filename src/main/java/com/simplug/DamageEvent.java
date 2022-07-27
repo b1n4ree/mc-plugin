@@ -18,16 +18,18 @@ public class DamageEvent implements Listener {
 
         System.out.println("Damage");
 
-        Player player = (Player) entityDamageEvent.getDamager();
+        if (entityDamageEvent.getDamager() instanceof Player) {
 
+            Player player = (Player) entityDamageEvent.getDamager();
 
-        if (player.getInventory().getItemInMainHand().getType().equals(Material.WOODEN_SWORD)) {
+            if (player.getInventory().getItemInMainHand().getType().equals(Material.WOODEN_SWORD)) {
 
-            int a = RANDOM.nextInt(1, 100);
-            if (a <= 20) {
-                entityDamageEvent.setDamage(entityDamageEvent.getDamage() * 20);
+                int a = RANDOM.nextInt(1, 100);
+                if (a <= 20) {
+                    entityDamageEvent.setDamage(entityDamageEvent.getDamage() * 20);
+                }
+                Main.loggerGet().info("Damage = " + entityDamageEvent.getDamage());
             }
-            Main.loggerGet().info("Damage = " + entityDamageEvent.getDamage());
         }
     }
 }

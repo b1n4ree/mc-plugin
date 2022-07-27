@@ -1,12 +1,12 @@
 package com.simplug.command;
 
 import com.simplug.Main;
-import com.simplug.data.dao.PlayerDataDao;
+import com.simplug.data.entity.PlayerData;
 import com.simplug.gui.TestGui;
+import com.simplug.service.PlayerDataService;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,7 +24,7 @@ public class TestCommand implements CommandExecutor {
 
     private final Logger log;
 
-    private final PlayerDataDao playerDataDao;
+    private final PlayerDataService playerDataService;
 
     private final TestGui testGui;
 
@@ -37,6 +37,12 @@ public class TestCommand implements CommandExecutor {
 
             player.openInventory(testGui.getInventory());
 
+            long millisStart = System.currentTimeMillis();
+
+            PlayerData playerData = playerDataService.getByPlayerName(player.getName());
+            playerData.setExperience(playerData.getExperience() + 10);
+            player.sendMessage(Component.text(playerData.toString()
+                    + "\n millis=" + (System.currentTimeMillis() - millisStart)));
 
             Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), new Runnable() {
                 public void run() {

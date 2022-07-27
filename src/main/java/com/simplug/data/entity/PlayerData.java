@@ -18,6 +18,9 @@ public class PlayerData {
     @Setter(value = AccessLevel.NONE)
     private String playerName;
 
+    @Column(name = "experience", nullable = false)
+    private Long experience;
+
 //    @PrePersist
 //    protected void beforeSave() {
 //        lastModifiedDate = Instant.now();

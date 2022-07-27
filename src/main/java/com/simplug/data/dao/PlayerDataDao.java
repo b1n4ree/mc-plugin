@@ -2,56 +2,71 @@ package com.simplug.data.dao;
 
 import com.simplug.data.entity.PlayerData;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.CacheMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 public class PlayerDataDao {
 
     private final SessionFactory sessionFactory;
 
-    public Optional<PlayerData> findByPlayerName(String playerName) {
-        return (Optional<PlayerData>) sessionFactory.openSession()
-                .createQuery("from PlayerData where playerName=:playerName")
-                .setParameter("playerName", playerName)
-                .setMaxResults(1)
-                .uniqueResultOptional();
-    }
+    public PlayerData findOrCreateByPlayerName(String playerName) {
+        PlayerData playerData =  sessionFactory
+                .openSession()
+                .get(PlayerData.class, playerName);
 
-    public PlayerData findById(int id) {
-        return sessionFactory.openSession().get(PlayerData.class, id);
-    }
+        if (playerData != null) {
+            return playerData;
+        }
 
-    public void save(PlayerData playerData) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.save(playerData);
+
+        session.persist(new PlayerData(playerName, 0L));
+        playerData = session.get(PlayerData.class, playerName);
+
         transaction.commit();
         session.close();
+
+        return playerData;
     }
 
-    public void update(PlayerData playerData) {
+    public PlayerData update(PlayerData playerData) {
+
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.update(playerData);
+
+        PlayerData updatedPlayerData = session.merge(playerData);
+
         transaction.commit();
         session.close();
+
+        return updatedPlayerData;
     }
 
-    public void delete(PlayerData playerData) {
+    public void updateAll(List<PlayerData> playerDataList) {
+
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.delete(playerData);
+
+        session.setCacheMode(CacheMode.IGNORE);
+        final int batchSize = 15;
+
+        for (int index = 0; index < playerDataList.size(); index++) {
+            if (index > 0 && index % batchSize == 0) {
+                //flush a batch of inserts and release memory
+                session.flush();
+                session.clear();
+            }
+
+            session.merge(playerDataList.get(index));
+        }
+
         transaction.commit();
         session.close();
-    }
-
-    public List<PlayerData> findAll() {
-        List<PlayerData> playerDataList = (List<PlayerData>) sessionFactory.openSession().createQuery("From PlayerData").list();
-        return playerDataList;
     }
 }
