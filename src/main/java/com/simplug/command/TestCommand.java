@@ -64,8 +64,8 @@ public class TestCommand implements CommandExecutor {
 
 
 
-                    Score score = objective.getScore("Баланс");
-                    score.setScore(1000);
+                    Score score = objective.getScore("Убийств");
+                    score.setScore(Math.toIntExact(playerData.getKillCount()));
                     Score score1 = objective.getScore("Хуев в жопе");
                     score1.setScore(3);
                     Score score2 = objective.getScore("Комаров убито");

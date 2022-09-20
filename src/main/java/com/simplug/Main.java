@@ -3,10 +3,7 @@ package com.simplug;
 import com.simplug.command.TestCommand;
 import com.simplug.data.dao.PlayerDataDao;
 import com.simplug.data.entity.PlayerData;
-import com.simplug.events.ClickUpEvent;
-import com.simplug.events.DamageEvent;
-import com.simplug.events.ExpEvent;
-import com.simplug.events.JoinEvent;
+import com.simplug.events.*;
 import com.simplug.gui.TestGui;
 import com.simplug.listener.PlayerQuitAndJoinListener;
 import com.simplug.service.PlayerDataService;
@@ -66,6 +63,7 @@ public class Main  extends JavaPlugin {
         registerCommands();
         Bukkit.getPluginManager().registerEvents(new JoinEvent(playerDataService), this);
         Bukkit.getPluginManager().registerEvents(new ClickUpEvent(playerDataService), this);
+        Bukkit.getPluginManager().registerEvents(new MySpawnEntityEvent(), this);
     }
 
     private void registerCommands() {

@@ -17,6 +17,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class ExpEvent implements Listener {
@@ -55,14 +56,28 @@ public class ExpEvent implements Listener {
                 if (player.getInventory().getItemInMainHand().getType().equals(Material.WOODEN_SWORD)) {
 
                     playerData.setKillCount(playerData.getKillCount() + 1);
-                    player.sendMessage(ChatColor.DARK_AQUA + "" + playerData.getKillCount());
-                    Main.loggerGet().info("EXP = " + entityDeathEvent.getEntity().getKiller().getExp());
+
                     ArrayList<String> lore = new ArrayList();
                     ItemMeta itemMeta = entityDeathEvent.getEntity().getKiller().getInventory().getItemInMainHand().getItemMeta();
+                    itemMeta.setUnbreakable(true);
                     lore.add("Count kills: " + playerData.getKillCount());
                     itemMeta.setLore(lore);
+
                     entityDeathEvent.getEntity().getKiller().getInventory().getItemInMainHand().setItemMeta(itemMeta);
                     player.getWorld().spawnEntity(new Location(player.getWorld(), 9, 86, 17), cow).setCustomName(ChatColor.RED + "Eblan KraSnogoloviy");
+
+                } else if (player.getInventory().getItemInMainHand().getType().equals(Material.STONE_SWORD)) {
+
+                    playerData.setKillCount(playerData.getKillCount() + 1);
+                    ArrayList<String> lore = new ArrayList();
+                    ItemMeta itemMeta = entityDeathEvent.getEntity().getKiller().getInventory().getItemInMainHand().getItemMeta();
+                    itemMeta.setUnbreakable(true);
+                    lore.add("Count kills: " + playerData.getKillCount());
+                    itemMeta.setLore(lore);
+
+                    entityDeathEvent.getEntity().getKiller().getInventory().getItemInMainHand().setItemMeta(itemMeta);
+                    player.getWorld().spawnEntity(new Location(player.getWorld(), 9 , 86, 17), cow);
+
                 }
             }
         }
