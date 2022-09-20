@@ -21,6 +21,12 @@ public class PlayerData {
     @Column(name = "experience", nullable = false)
     private Long experience;
 
+    @Column(name = "class_name", nullable = false)
+    private String className;
+
+    @Column(name = "kill_count", nullable = false)
+    private Long killCount;
+
 //    @PrePersist
 //    protected void beforeSave() {
 //        lastModifiedDate = Instant.now();

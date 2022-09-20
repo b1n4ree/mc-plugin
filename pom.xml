@@ -75,7 +75,6 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <spring.profiles.active>docker</spring.profiles.active>
                 <server.plugins.path>/home/alex/Desktop/paper-1.18.2/plugins</server.plugins.path>
             </properties>
         </profile>

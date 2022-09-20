@@ -3,6 +3,10 @@ package com.simplug;
 import com.simplug.command.TestCommand;
 import com.simplug.data.dao.PlayerDataDao;
 import com.simplug.data.entity.PlayerData;
+import com.simplug.events.ClickUpEvent;
+import com.simplug.events.DamageEvent;
+import com.simplug.events.ExpEvent;
+import com.simplug.events.JoinEvent;
 import com.simplug.gui.TestGui;
 import com.simplug.listener.PlayerQuitAndJoinListener;
 import com.simplug.service.PlayerDataService;
@@ -33,16 +37,11 @@ import java.util.logging.Logger;
 
 public class Main  extends JavaPlugin {
 
-
     private Location arenaLocation = new Location(Bukkit.getWorld("world"), 50, 50, 50);
     private static Main instance;
-
     private static Logger logger;
-
     private SessionFactory sessionFactory;
-
     private PlayerDataService playerDataService;
-
     private PlayerDataDao playerDataDao;
 
     public static Logger loggerGet() {
@@ -60,19 +59,23 @@ public class Main  extends JavaPlugin {
 
         playerDataService = new PlayerDataService(playerDataDao, logger);
 
-        Bukkit.getPluginManager().registerEvents(new KillEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new ExpEvent(playerDataService), this);
+//        Bukkit.getPluginManager().registerEvents(new KillEvent(), this);
         Bukkit.getPluginManager().registerEvents(new DamageEvent(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerQuitAndJoinListener(playerDataService, logger), this);
         registerCommands();
+        Bukkit.getPluginManager().registerEvents(new JoinEvent(playerDataService), this);
+        Bukkit.getPluginManager().registerEvents(new ClickUpEvent(playerDataService), this);
     }
 
     private void registerCommands() {
-        this.getCommand("test").setExecutor(new TestCommand(this, logger, playerDataService, new TestGui(this)));
+        this.getCommand("test").setExecutor(new TestCommand(this, logger, playerDataService, new TestGui(playerDataService, this)));
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
         Player player = null;
+
 
         if (sender instanceof Player) {
 
