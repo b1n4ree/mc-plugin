@@ -27,6 +27,12 @@ public class PlayerData {
     @Column(name = "kill_count", nullable = false)
     private Long killCount;
 
+    @Column(name = "kill_count_cow", nullable = false)
+    private Long killCountCow;
+
+    @Column(name = "kill_count_pig", nullable = false)
+    private Long killCountPig;
+
 //    @PrePersist
 //    protected void beforeSave() {
 //        lastModifiedDate = Instant.now();
