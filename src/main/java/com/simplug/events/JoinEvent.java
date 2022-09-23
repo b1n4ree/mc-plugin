@@ -1,5 +1,6 @@
 package com.simplug.events;
 
+import com.simplug.data.entity.PlayerData;
 import com.simplug.service.PlayerDataService;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -34,6 +35,9 @@ public class JoinEvent implements Listener {
         Player player = playerJoinEvent.getPlayer();
         player.setInvulnerable(true);
         playerName = player.getName();
+
+        PlayerData playerData = playerDataService.getByPlayerName(playerName);
+        playerData.setKillCount(playerData.getKillCountPig() + playerData.getKillCountCow());
 
 
 

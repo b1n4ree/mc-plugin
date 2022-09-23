@@ -50,10 +50,12 @@ public class ExpEvent implements Listener {
                 ItemStack itemStack = new ItemStack(player.getInventory().getItemInMainHand());
                 ItemMeta itemMeta = itemStack.getItemMeta();
                 List<Component> list = new ArrayList<Component>();
-                Component component1 = Component.text("Count kill cow: " + playerData.getKillCountCow()).color(TextColor.color(3, 3, 3));
-                Component component2 = Component.text("Count kill pig: " + playerData.getKillCountPig()).color(TextColor.color(30, 30, 30));
+                Component component1 = Component.text("Count kill: " + playerData.getKillCount()).color(TextColor.color(255, 59, 244));
+                Component component2 = Component.text("Count kill cow: " + playerData.getKillCountCow()).color(TextColor.color(3, 3, 3));
+                Component component3 = Component.text("Count kill pig: " + playerData.getKillCountPig()).color(TextColor.color(30, 30, 30));
                 list.add(component1);
                 list.add(component2);
+                list.add(component3);
                 itemMeta.lore(list);
                 player.getInventory().getItemInMainHand().getItemMeta().setUnbreakable(true);
                 player.getInventory().getItemInMainHand().setItemMeta(itemMeta);
