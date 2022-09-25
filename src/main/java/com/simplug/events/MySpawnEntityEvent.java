@@ -28,10 +28,7 @@ public class MySpawnEntityEvent implements Listener {
     @EventHandler
     public void spawn(EntitySpawnEvent entitySpawnEvent) {
 
-        List<Player> playerList = entitySpawnEvent.getLocation().getWorld().getPlayers();
-        PlayerData playerData = playerDataService.getByPlayerName(joinEvent.getPlayerName());
 
-        Player player = null;
         LivingEntity livingEntity = null;
         if (entitySpawnEvent.getEntity().getType().equals(EntityType.COW)) {
 

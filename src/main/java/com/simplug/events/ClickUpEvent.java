@@ -76,28 +76,4 @@ public class ClickUpEvent implements Listener {
             }
         }
     }
-
-    @EventHandler
-    public void cancelMove(InventoryMoveItemEvent inventoryMoveItemEvent) {
-
-        if (inventoryMoveItemEvent.getItem().equals(Material.WOODEN_SWORD)) {
-            inventoryMoveItemEvent.setCancelled(false);
-        } else if (inventoryMoveItemEvent.getItem().equals(Material.STONE_SWORD)) {
-            inventoryMoveItemEvent.setCancelled(false);
-        } else if (inventoryMoveItemEvent.getItem().equals(Material.IRON_SWORD)) {
-            inventoryMoveItemEvent.setCancelled(false);
-        } else if (inventoryMoveItemEvent.getItem().equals(Material.GOLDEN_SWORD)) {
-            inventoryMoveItemEvent.setCancelled(false);
-        } else if (inventoryMoveItemEvent.getItem().equals(Material.DIAMOND_SWORD)) {
-            inventoryMoveItemEvent.setCancelled(false);
-        } else {
-            inventoryMoveItemEvent.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void drop(EntityDropItemEvent entityDropItemEvent) {
-
-        entityDropItemEvent.setCancelled(true);
-    }
 }

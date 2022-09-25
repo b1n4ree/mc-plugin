@@ -1,7 +1,6 @@
 package com.simplug.events;
 
 import com.simplug.Main;
-import com.simplug.command.TestCommand;
 import com.simplug.data.entity.PlayerData;
 import com.simplug.service.PlayerDataService;
 import net.kyori.adventure.text.Component;
@@ -22,23 +21,19 @@ import java.util.Random;
 public class JoinEvent implements Listener {
 
     private final PlayerDataService playerDataService;
-    public String playerName;
 
     public JoinEvent(PlayerDataService playerDataService) {
         this.playerDataService = playerDataService;
-        playerName = new String();
     }
 
-    public String getPlayerName(){
-        return playerName;
-    }
 
     @EventHandler
     public void join(PlayerJoinEvent playerJoinEvent) {
 
+        Player player = playerJoinEvent.getPlayer();
+        String playerName = player.getName();
         PlayerData playerData = playerDataService.getByPlayerName(playerName);
         playerData.setKillCount(playerData.getKillCountPig() + playerData.getKillCountCow());
-        Player player = playerJoinEvent.getPlayer();
 
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), new Runnable() {
             public void run() {
@@ -50,7 +45,7 @@ public class JoinEvent implements Listener {
 
                 Objective objective;
                 if (board.getObjective("simplug") == null) {
-                    objective = board.registerNewObjective("simplug", "dummy", Component.text("Stats").color(TextColor.color(200, 43, 169)));
+                    objective = board.registerNewObjective("simplug", "dummy", Component.text("Stats by " + playerName).color(TextColor.color(200, 43, 169)));
                 } else {
                     objective = board.getObjective("simplug");
                 }

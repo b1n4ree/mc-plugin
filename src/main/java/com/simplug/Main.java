@@ -58,6 +58,8 @@ public class Main  extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new JoinEvent(playerDataService), this);
         Bukkit.getPluginManager().registerEvents(new ClickUpEvent(playerDataService), this);
         Bukkit.getPluginManager().registerEvents(new MySpawnEntityEvent(playerDataService), this);
+        Bukkit.getPluginManager().registerEvents(new DropCancelEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new MyInventoryMoveItemEvent(), this);
     }
 
     private void registerCommands() {
