@@ -1,9 +1,12 @@
 package com.simplug.events;
 
+import com.simplug.Main;
+import com.simplug.command.TestCommand;
 import com.simplug.data.entity.PlayerData;
 import com.simplug.service.PlayerDataService;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -11,6 +14,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scoreboard.*;
+
+import java.util.Random;
 
 
 public class JoinEvent implements Listener {
@@ -30,14 +36,48 @@ public class JoinEvent implements Listener {
     @EventHandler
     public void join(PlayerJoinEvent playerJoinEvent) {
 
-        EntityType cow = EntityType.COW;
-        EntityType pig = EntityType.PIG;
-        Player player = playerJoinEvent.getPlayer();
-        player.setInvulnerable(true);
-        playerName = player.getName();
-
         PlayerData playerData = playerDataService.getByPlayerName(playerName);
         playerData.setKillCount(playerData.getKillCountPig() + playerData.getKillCountCow());
+        Player player = playerJoinEvent.getPlayer();
+
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), new Runnable() {
+            public void run() {
+                ScoreboardManager manager = Bukkit.getScoreboardManager();
+                player.setScoreboard(manager.getNewScoreboard());
+//                    final Scoreboard board = manager.getNewScoreboard();
+
+                Scoreboard board = player.getScoreboard();
+
+                Objective objective;
+                if (board.getObjective("simplug") == null) {
+                    objective = board.registerNewObjective("simplug", "dummy", Component.text("Stats").color(TextColor.color(200, 43, 169)));
+                } else {
+                    objective = board.getObjective("simplug");
+                }
+
+                objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+                //objective.displayName(Component.text("DisplayName"));
+                //objective.setRenderType((new Random()).nextBoolean() ? RenderType.HEARTS : RenderType.INTEGER);
+
+
+
+                Score score = objective.getScore("Всего убийств");
+                score.setScore(Math.toIntExact(playerDataService.getByPlayerName(playerName).getKillCount()));
+                Score score1 = objective.getScore("Убийст коров");
+                score1.setScore(Math.toIntExact(playerDataService.getByPlayerName(playerName).getKillCountCow()));
+                Score score2 = objective.getScore("Убийст свинок");
+                score2.setScore(Math.toIntExact(playerDataService.getByPlayerName(playerName).getKillCountPig()));
+                Score score3 = objective.getScore("§6ЦветнаяХуйня");
+                score3.setScore((new Random()).nextInt(100));
+                //player.setScoreboard(board);
+            }
+        },1, 5);
+
+
+        EntityType cow = EntityType.COW;
+        EntityType pig = EntityType.PIG;
+        player.setInvulnerable(true);
+
 
 
 

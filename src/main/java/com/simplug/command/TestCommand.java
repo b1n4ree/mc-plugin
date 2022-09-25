@@ -46,14 +46,15 @@ public class TestCommand implements CommandExecutor {
 
             Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), new Runnable() {
                 public void run() {
-//                    ScoreboardManager manager = Bukkit.getScoreboardManager();
+                    ScoreboardManager manager = Bukkit.getScoreboardManager();
+                    player.setScoreboard(manager.getNewScoreboard());
 //                    final Scoreboard board = manager.getNewScoreboard();
 
                     Scoreboard board = player.getScoreboard();
 
                     Objective objective;
                     if (board.getObjective("simplug") == null) {
-                        objective = board.registerNewObjective("simplug", "dummy", Component.text("DisplayName"));
+                        objective = board.registerNewObjective("simplug", "dummy", Component.text("Stats"));
                     } else {
                         objective = board.getObjective("simplug");
                     }
@@ -64,12 +65,12 @@ public class TestCommand implements CommandExecutor {
 
 
 
-                    Score score = objective.getScore("Убийств");
+                    Score score = objective.getScore("Всего убийств");
                     score.setScore(Math.toIntExact(playerData.getKillCount()));
-                    Score score1 = objective.getScore("Хуев в жопе");
-                    score1.setScore(3);
-                    Score score2 = objective.getScore("Комаров убито");
-                    score2.setScore(8);
+                    Score score1 = objective.getScore("Убийст коров");
+                    score1.setScore(Math.toIntExact(playerData.getKillCountCow()));
+                    Score score2 = objective.getScore("Убийст свинок");
+                    score2.setScore(Math.toIntExact(playerData.getKillCountPig()));
                     Score score3 = objective.getScore("§6ЦветнаяХуйня");
                     score3.setScore((new Random()).nextInt(100));
                     //player.setScoreboard(board);

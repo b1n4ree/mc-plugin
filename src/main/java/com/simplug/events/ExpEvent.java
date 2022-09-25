@@ -1,7 +1,6 @@
 package com.simplug.events;
 
 import com.simplug.data.entity.PlayerData;
-import com.simplug.service.CountKiilService;
 import com.simplug.service.PlayerDataService;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -12,20 +11,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class ExpEvent implements Listener {
 
-    private final CountKiilService countKiilService;
     private final PlayerDataService playerDataService;
 
     public ExpEvent(PlayerDataService playerDataService) {
         this.playerDataService = playerDataService;
-        countKiilService = new CountKiilService();
     }
 
 
@@ -43,25 +36,7 @@ public class ExpEvent implements Listener {
 
             PlayerData playerData = playerDataService.getByPlayerName(player.getName());
             playerData.setExperience(playerData.getExperience() + entityDeathEvent.getDroppedExp());
-
-
-            if (player.getInventory().getItemInMainHand().getItemMeta() != null) {
-
-                ItemStack itemStack = new ItemStack(player.getInventory().getItemInMainHand());
-                ItemMeta itemMeta = itemStack.getItemMeta();
-                List<Component> list = new ArrayList<Component>();
-                Component component1 = Component.text("Count kill: " + playerData.getKillCount()).color(TextColor.color(255, 59, 244));
-                Component component2 = Component.text("Count kill cow: " + playerData.getKillCountCow()).color(TextColor.color(3, 3, 3));
-                Component component3 = Component.text("Count kill pig: " + playerData.getKillCountPig()).color(TextColor.color(30, 30, 30));
-                list.add(component1);
-                list.add(component2);
-                list.add(component3);
-                itemMeta.lore(list);
-                player.getInventory().getItemInMainHand().getItemMeta().setUnbreakable(true);
-                player.getInventory().getItemInMainHand().setItemMeta(itemMeta);
-            }
-
-
+            playerData.setKillCount(playerData.getKillCountPig() + playerData.getKillCountCow());
 
             if (entityDeathEvent.getEntity().getType().equals(cow)) {
 
@@ -74,6 +49,7 @@ public class ExpEvent implements Listener {
                 entityDeathEvent.getEntity().getWorld().spawnEntity(new Location(player.getWorld(), 9, 86, 13), pig);
             }
         }
+
     }
 
     @EventHandler

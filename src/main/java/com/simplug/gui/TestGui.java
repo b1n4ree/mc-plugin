@@ -92,5 +92,4 @@ public class TestGui implements InventoryHolder, Listener {
             e.setCancelled(true);
         }
     }
-
 }

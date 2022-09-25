@@ -39,7 +39,7 @@ public class MySpawnEntityEvent implements Listener {
             livingEntity.registerAttribute(Attribute.GENERIC_MAX_HEALTH);
             livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
 
-            if (livingEntity.getHealth() >= 20) {
+            if (livingEntity.getHealth() <= 20) {
 
                 livingEntity.setHealth(livingEntity.getHealth() + 1);
             } else {
@@ -47,5 +47,6 @@ public class MySpawnEntityEvent implements Listener {
                 System.out.println("Достигнуто максимальное хп = " + livingEntity.getHealth());
             }
         }
+
     }
 }
