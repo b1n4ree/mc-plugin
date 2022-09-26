@@ -10,6 +10,6 @@ public class DropCancelEvent implements Listener {
     public void drop(EntityDropItemEvent entityDropItemEvent) {
 
         System.out.println("DropItemEvent");
-        entityDropItemEvent.setCancelled(true);
+        entityDropItemEvent.getItemDrop().remove();
     }
 }

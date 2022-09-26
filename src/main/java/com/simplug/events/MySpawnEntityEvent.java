@@ -1,27 +1,24 @@
 package com.simplug.events;
 
-import com.simplug.data.entity.PlayerData;
 import com.simplug.service.PlayerDataService;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
-import java.util.List;
 
 public class MySpawnEntityEvent implements Listener {
 
     private final PlayerDataService playerDataService;
-    private final JoinEvent joinEvent;
     private int countCow;
     private int countPig;
 
     public MySpawnEntityEvent(PlayerDataService playerDataService) {
         this.playerDataService = playerDataService;
-        joinEvent = new JoinEvent(playerDataService);
     }
 
 
@@ -35,6 +32,7 @@ public class MySpawnEntityEvent implements Listener {
             livingEntity = (LivingEntity) entitySpawnEvent.getEntity();
             livingEntity.registerAttribute(Attribute.GENERIC_MAX_HEALTH);
             livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
+            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 99999, 9999, false, false, true));
 
             if (livingEntity.getHealth() <= 20) {
 

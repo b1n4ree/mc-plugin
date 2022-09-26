@@ -13,7 +13,6 @@ public class ItemsUtils {
 
         ItemStack itemStack = new ItemStack(Material.WOODEN_SWORD);
         ItemMeta itemMeta = itemStack.getItemMeta();
-
         itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         itemMeta.setUnbreakable(true);
         itemStack.setItemMeta(itemMeta);

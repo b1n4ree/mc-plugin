@@ -33,6 +33,9 @@ public class PlayerData {
     @Column(name = "kill_count_pig", nullable = false)
     private Long killCountPig;
 
+    @Column(name = "spawn_entity_lvl_1", nullable = false)
+    private Long spawnEntityLvl1;
+
 //    @PrePersist
 //    protected void beforeSave() {
 //        lastModifiedDate = Instant.now();

@@ -54,27 +54,19 @@ public class JoinEvent implements Listener {
                 //objective.displayName(Component.text("DisplayName"));
                 //objective.setRenderType((new Random()).nextBoolean() ? RenderType.HEARTS : RenderType.INTEGER);
 
-
-
                 Score score = objective.getScore("Всего убийств");
                 score.setScore(Math.toIntExact(playerDataService.getByPlayerName(playerName).getKillCount()));
                 Score score1 = objective.getScore("Убийст коров");
                 score1.setScore(Math.toIntExact(playerDataService.getByPlayerName(playerName).getKillCountCow()));
                 Score score2 = objective.getScore("Убийст свинок");
                 score2.setScore(Math.toIntExact(playerDataService.getByPlayerName(playerName).getKillCountPig()));
-                Score score3 = objective.getScore("§6ЦветнаяХуйня");
-                score3.setScore((new Random()).nextInt(100));
                 //player.setScoreboard(board);
             }
         },1, 5);
 
-
         EntityType cow = EntityType.COW;
         EntityType pig = EntityType.PIG;
         player.setInvulnerable(true);
-
-
-
 
         Component component = Component.text("Еблан красноголовый").color(TextColor.color(255, 0, 13));
 

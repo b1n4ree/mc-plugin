@@ -5,6 +5,7 @@ import com.simplug.service.PlayerDataService;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,7 +29,9 @@ public class ExpEvent implements Listener {
 
         EntityType cow = EntityType.COW;
         EntityType pig = EntityType.PIG;
+
         Player player = null;
+        entityDeathEvent.getDrops().clear();
 
         if (entityDeathEvent.getEntity().getKiller().getPlayer() != null) {
 
@@ -36,17 +39,18 @@ public class ExpEvent implements Listener {
 
             PlayerData playerData = playerDataService.getByPlayerName(player.getName());
             playerData.setExperience(playerData.getExperience() + entityDeathEvent.getDroppedExp());
-            playerData.setKillCount(playerData.getKillCountPig() + playerData.getKillCountCow());
 
             if (entityDeathEvent.getEntity().getType().equals(cow)) {
 
                 playerData.setKillCountCow(playerData.getKillCountCow() + 1);
                 entityDeathEvent.getEntity().getWorld().spawnEntity(new Location(player.getWorld(), 9, 86, 17), cow);
+                playerData.setKillCount(playerData.getKillCountPig() + playerData.getKillCountCow());
 
             } else if (entityDeathEvent.getEntity().getType().equals(pig)) {
 
                 playerData.setKillCountPig(playerData.getKillCountPig() + 1);
                 entityDeathEvent.getEntity().getWorld().spawnEntity(new Location(player.getWorld(), 9, 86, 13), pig);
+                playerData.setKillCount(playerData.getKillCountPig() + playerData.getKillCountCow());
             }
         }
 
