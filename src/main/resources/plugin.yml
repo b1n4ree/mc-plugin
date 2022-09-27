@@ -12,9 +12,13 @@ commands:
     description: Add sword
     usage: /sword [player]
 
-  chest:
-    description: Add chest
-    usage: /chest [player]
+  dblock:
+    description: Add diamond block with some ItemMeta
+    usage: /dblock [player]
+
+  gblock:
+    description: Add gold block with some ItemMeta
+    usage: /gblock [player]
 
   jitel:
     description: Add villager

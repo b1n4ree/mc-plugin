@@ -15,9 +15,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scoreboard.*;
 
-import java.util.Random;
-
-
 public class JoinEvent implements Listener {
 
     private final PlayerDataService playerDataService;

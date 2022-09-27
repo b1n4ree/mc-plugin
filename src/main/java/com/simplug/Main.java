@@ -8,9 +8,11 @@ import com.simplug.gui.TestGui;
 import com.simplug.listener.PlayerQuitAndJoinListener;
 import com.simplug.service.PlayerDataService;
 import de.tr7zw.nbtapi.NBTItem;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
@@ -18,12 +20,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class Main  extends JavaPlugin {
@@ -89,9 +94,25 @@ public class Main  extends JavaPlugin {
 
                 player.getWorld().spawnEntity(new Location(player.getWorld(), 10, 88, 17), EntityType.COW);
 
-            } else if (cmd.getName().equalsIgnoreCase("chest")) {
+            } else if (cmd.getName().equalsIgnoreCase("dblock")) {
 
-                ItemStack itemStack = new ItemStack(Material.CHEST);
+                ItemStack itemStack = new ItemStack(Material.DIAMOND_BLOCK);
+                ItemMeta itemMeta = itemStack.getItemMeta();
+                List<Component> list = new ArrayList<>();
+                Component component = Component.text("levelUp");
+                itemMeta.displayName(component);
+                itemStack.setItemMeta(itemMeta);
+                PlayerInventory playerInventory = player.getInventory();
+                playerInventory.addItem(itemStack);
+
+            } else if (cmd.getName().equalsIgnoreCase("gblock")) {
+
+                ItemStack itemStack = new ItemStack(Material.GOLD_BLOCK);
+                ItemMeta itemMeta = itemStack.getItemMeta();
+                List<Component> list = new ArrayList<>();
+                list.add(Component.text("levelDown"));
+                itemMeta.lore(list);
+                itemStack.setItemMeta(itemMeta);
                 PlayerInventory playerInventory = player.getInventory();
                 playerInventory.addItem(itemStack);
 
