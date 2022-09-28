@@ -3,19 +3,16 @@ package com.simplug.events;
 import com.simplug.data.entity.PlayerData;
 import com.simplug.service.PlayerDataService;
 import com.simplug.utils.EntityUtils;
+import de.tr7zw.nbtapi.NBTBlock;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 
 public class ExpEvent implements Listener {
@@ -64,54 +61,32 @@ public class ExpEvent implements Listener {
 
         if (playerInteractEvent.getClickedBlock() != null) {
 
-                int x = playerInteractEvent.getClickedBlock().getX();
-                int y = playerInteractEvent.getClickedBlock().getY();
-                int z = playerInteractEvent.getClickedBlock().getZ();
-                Player player = (Player) playerInteractEvent.getPlayer();
+            int x = playerInteractEvent.getClickedBlock().getX();
+            int y = playerInteractEvent.getClickedBlock().getY();
+            int z = playerInteractEvent.getClickedBlock().getZ();
+            Player player = (Player) playerInteractEvent.getPlayer();
 
-                PlayerData playerData = playerDataService.getByPlayerName(player.getName());
-                Component component = Component.text("X=" + x).color(TextColor.color(255, 0, 13))
-                        .append(Component.text(" Y=" + y).color(TextColor.color(69, 255, 1)))
-                        .append(Component.text(" Z=" + z).color(TextColor.color(1, 0, 255)));
+            PlayerData playerData = playerDataService.getByPlayerName(player.getName());
+            Component component = Component.text("X=" + x).color(TextColor.color(255, 0, 13))
+                    .append(Component.text(" Y=" + y).color(TextColor.color(69, 255, 1)))
+                    .append(Component.text(" Z=" + z).color(TextColor.color(1, 0, 255)));
 
-                player.sendMessage(component);
+            player.sendMessage(component);
 
-                if (playerInteractEvent.getClickedBlock().getType().equals(Material.DIAMOND_BLOCK)) {
+            if (playerInteractEvent.getClickedBlock().getType().equals(Material.DIAMOND_BLOCK)) {
 
-                    ItemStack itemStack = new ItemStack(playerInteractEvent.getClickedBlock().getType());
-                    ItemMeta itemMeta = itemStack.getItemMeta();
-                    player.sendMessage(itemMeta.displayName());
+                player.sendMessage("Click on diamond block");
+                NBTBlock nbtBlock = new NBTBlock(playerInteractEvent.getClickedBlock());
+                player.sendMessage("Some" + nbtBlock.getData().getString("spawnMobLvl"));
 
-                    if (itemMeta.lore().size() != 0) {
+                if (nbtBlock.getData().getString("spawnMobLvl").equals("up")) {
 
-                        player.sendMessage(itemMeta.lore().get(0));
-
-                        if (itemMeta.lore().get(0).equals(Component.text("levelUp"))) {
-
-                            if (playerDataService.getByPlayerName(player.getName()).getSpawnEntityLvl1() < 14) {
-
-                                playerDataService.getByPlayerName(player.getName()).setSpawnEntityLvl1(playerData.getSpawnEntityLvl1() + 1);
-
-                            } else {
-
-                                player.sendMessage("Выше некуда");
-                            }
-                        } else  if (itemMeta.lore().get(0).equals(Component.text("levelDown"))) {
-
-                            if (playerDataService.getByPlayerName(player.getName()).getSpawnEntityLvl1() > 0) {
-
-                                playerDataService.getByPlayerName(player.getName()).setSpawnEntityLvl1(playerData.getSpawnEntityLvl1() - 1);
-
-                            } else {
-
-                                player.sendMessage("Ниже некуда");
-                            }
-                        }
+                    player.sendMessage("Has is NBT");
+                    player.sendMessage("TextNBT = " + nbtBlock.getData().getString("spawnMobLvl"));
+                    playerDataService.getByPlayerName(player.getName()).setSpawnEntityLvl1(playerData.getSpawnEntityLvl1() + 1);
+                    player.sendMessage("LVL =" + playerDataService.getByPlayerName(player.getName()).getSpawnEntityLvl1());
                 }
             }
-        } else {
-
-            playerInteractEvent.setCancelled(true);
         }
     }
 }

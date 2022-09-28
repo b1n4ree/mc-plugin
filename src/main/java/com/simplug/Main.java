@@ -7,8 +7,10 @@ import com.simplug.events.*;
 import com.simplug.gui.TestGui;
 import com.simplug.listener.PlayerQuitAndJoinListener;
 import com.simplug.service.PlayerDataService;
+import de.tr7zw.nbtapi.NBTBlock;
 import de.tr7zw.nbtapi.NBTItem;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -65,6 +67,7 @@ public class Main  extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new MySpawnEntityEvent(playerDataService), this);
         Bukkit.getPluginManager().registerEvents(new DropCancelEvent(), this);
         Bukkit.getPluginManager().registerEvents(new MyInventoryMoveItemEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new MyBlockPlaceEvent(), this);
     }
 
     private void registerCommands() {
@@ -98,9 +101,7 @@ public class Main  extends JavaPlugin {
 
                 ItemStack itemStack = new ItemStack(Material.DIAMOND_BLOCK);
                 ItemMeta itemMeta = itemStack.getItemMeta();
-                List<Component> list = new ArrayList<>();
-                Component component = Component.text("levelUp");
-                itemMeta.displayName(component);
+                itemMeta.displayName(Component.text("LvlUp").color(TextColor.color(255, 243, 2)));
                 itemStack.setItemMeta(itemMeta);
                 PlayerInventory playerInventory = player.getInventory();
                 playerInventory.addItem(itemStack);
@@ -109,9 +110,7 @@ public class Main  extends JavaPlugin {
 
                 ItemStack itemStack = new ItemStack(Material.GOLD_BLOCK);
                 ItemMeta itemMeta = itemStack.getItemMeta();
-                List<Component> list = new ArrayList<>();
-                list.add(Component.text("levelDown"));
-                itemMeta.lore(list);
+                itemMeta.displayName(Component.text("LvlDown").color(TextColor.color(0, 255, 248)));
                 itemStack.setItemMeta(itemMeta);
                 PlayerInventory playerInventory = player.getInventory();
                 playerInventory.addItem(itemStack);

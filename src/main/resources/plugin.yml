@@ -2,6 +2,7 @@ name: SimPlug
 main: com.simplug.Main
 version: 1.0
 api-version: 1.13
+depend: [NBTAPI]
 
 commands:
   arena:
