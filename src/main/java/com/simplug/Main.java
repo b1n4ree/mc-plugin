@@ -7,14 +7,12 @@ import com.simplug.events.*;
 import com.simplug.gui.TestGui;
 import com.simplug.listener.PlayerQuitAndJoinListener;
 import com.simplug.service.PlayerDataService;
-import de.tr7zw.nbtapi.NBTBlock;
 import de.tr7zw.nbtapi.NBTItem;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
@@ -58,7 +56,6 @@ public class Main  extends JavaPlugin {
         playerDataService = new PlayerDataService(playerDataDao, logger);
 
         Bukkit.getPluginManager().registerEvents(new ExpEvent(playerDataService), this);
-//        Bukkit.getPluginManager().registerEvents(new KillEvent(), this);
         Bukkit.getPluginManager().registerEvents(new DamageEvent(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerQuitAndJoinListener(playerDataService, logger), this);
         registerCommands();
@@ -68,6 +65,7 @@ public class Main  extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new DropCancelEvent(), this);
         Bukkit.getPluginManager().registerEvents(new MyInventoryMoveItemEvent(), this);
         Bukkit.getPluginManager().registerEvents(new MyBlockPlaceEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new MyFoodEvent(), this);
     }
 
     private void registerCommands() {
