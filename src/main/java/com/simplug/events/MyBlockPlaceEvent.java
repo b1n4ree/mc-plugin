@@ -1,6 +1,5 @@
 package com.simplug.events;
 
-import com.simplug.Main;
 import de.tr7zw.nbtapi.NBTBlock;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -17,7 +16,13 @@ public class MyBlockPlaceEvent implements Listener {
 
             NBTBlock nbtBlock = new NBTBlock(blockPlaceEvent.getBlock());
             nbtBlock.getData().setString("spawnMobLvl", "up");
-            System.out.println("Event BlockPlace is work");
+            System.out.println("Event BlockPlaceDiamond is work");
+
+        } else if (blockPlaceEvent.getBlock().getType().equals(Material.GOLD_BLOCK)) {
+
+            NBTBlock nbtBlock = new NBTBlock(blockPlaceEvent.getBlock());
+            nbtBlock.getData().setString("spawnMobLvl", "down");
+            System.out.println("Event BlockPlaceGold is work");
         }
     }
 }

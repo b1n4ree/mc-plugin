@@ -1,9 +1,11 @@
 package com.simplug.events;
 
 import com.simplug.service.PlayerDataService;
+import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
@@ -26,13 +28,19 @@ public class MySpawnEntityEvent implements Listener {
     public void spawn(EntitySpawnEvent entitySpawnEvent) {
 
 
-        LivingEntity livingEntity = null;
+        entitySpawnEvent.getLocation().getWorld().
+                getNearbyPlayers(new Location(entitySpawnEvent.getEntity().getWorld(), 9, 86, 17), 100)
+                .forEach(player -> {
+                    Player player1 = player;
+                });
         if (entitySpawnEvent.getEntity().getType().equals(EntityType.COW)) {
 
-            livingEntity = (LivingEntity) entitySpawnEvent.getEntity();
-            livingEntity.registerAttribute(Attribute.GENERIC_MAX_HEALTH);
-            livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
-            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 99999, 9999, false, false, true));
+            EntityType entityType = entitySpawnEvent.getEntity().getType();
+
+            if (entityType.getDefaultAttributes().getAttribute(Attribute.GENERIC_MAX_HEALTH) != null) {
+
+                entityType.getDefaultAttributes().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(3);
+            }
 
             if (livingEntity.getHealth() <= 20) {
 

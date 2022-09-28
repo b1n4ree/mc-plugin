@@ -75,16 +75,41 @@ public class ExpEvent implements Listener {
 
             if (playerInteractEvent.getClickedBlock().getType().equals(Material.DIAMOND_BLOCK)) {
 
-                player.sendMessage("Click on diamond block");
                 NBTBlock nbtBlock = new NBTBlock(playerInteractEvent.getClickedBlock());
-                player.sendMessage("Some" + nbtBlock.getData().getString("spawnMobLvl"));
+                player.sendMessage("SomeD" + nbtBlock.getData().getString("spawnMobLvl"));
 
                 if (nbtBlock.getData().getString("spawnMobLvl").equals("up")) {
 
-                    player.sendMessage("Has is NBT");
-                    player.sendMessage("TextNBT = " + nbtBlock.getData().getString("spawnMobLvl"));
-                    playerDataService.getByPlayerName(player.getName()).setSpawnEntityLvl1(playerData.getSpawnEntityLvl1() + 1);
-                    player.sendMessage("LVL =" + playerDataService.getByPlayerName(player.getName()).getSpawnEntityLvl1());
+                    if (playerDataService.getByPlayerName(player.getName()).getSpawnEntityLvl1() < 14) {
+
+                        playerDataService.getByPlayerName(player.getName()).setSpawnEntityLvl1(playerData.getSpawnEntityLvl1() + 1);
+                        player.sendMessage("LVL =" + playerDataService.getByPlayerName(player.getName()).getSpawnEntityLvl1());
+                        playerDataService.invalidateCached(player.getName());
+
+                    } else {
+
+                        player.sendMessage("Достигнут максимальный уровень моба");
+                        player.sendMessage("LVL =" + playerDataService.getByPlayerName(player.getName()).getSpawnEntityLvl1());
+                    }
+                }
+            } else if (playerInteractEvent.getClickedBlock().getType().equals(Material.GOLD_BLOCK)) {
+
+                NBTBlock nbtBlock = new NBTBlock(playerInteractEvent.getClickedBlock());
+                player.sendMessage("SomeG" + nbtBlock.getData().getString("spawnMobLvl"));
+
+                if (nbtBlock.getData().getString("spawnMobLvl").equals("down")) {
+
+                    if (playerDataService.getByPlayerName(player.getName()).getSpawnEntityLvl1() > 0) {
+
+                        playerDataService.getByPlayerName(player.getName()).setSpawnEntityLvl1(playerData.getSpawnEntityLvl1() - 1);
+                        player.sendMessage("LVL =" + playerDataService.getByPlayerName(player.getName()).getSpawnEntityLvl1());
+                        playerDataService.invalidateCached(player.getName());
+
+                    } else {
+
+                        player.sendMessage("Достигнут минимальный уровень моба");
+                        player.sendMessage("LVL =" + playerDataService.getByPlayerName(player.getName()).getSpawnEntityLvl1());
+                    }
                 }
             }
         }
