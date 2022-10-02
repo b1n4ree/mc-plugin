@@ -27,8 +27,6 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 public class Main  extends JavaPlugin {

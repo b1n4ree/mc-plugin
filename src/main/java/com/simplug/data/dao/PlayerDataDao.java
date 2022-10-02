@@ -26,7 +26,10 @@ public class PlayerDataDao {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
-        session.persist(new PlayerData(playerName, 0L, "default", 0L, 0L, 0L, 0L));
+        session.persist(new PlayerData(playerName, 0L, "default", 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L,
+                0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, false, false, false, false, false,
+                false, false, false, false, false, false, false, false, false));
+
         playerData = session.get(PlayerData.class, playerName);
 
         transaction.commit();

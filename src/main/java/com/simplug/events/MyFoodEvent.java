@@ -9,7 +9,6 @@ public class MyFoodEvent implements Listener {
     @EventHandler
     public void food(FoodLevelChangeEvent foodLevelChangeEvent) {
 
-        foodLevelChangeEvent.setFoodLevel(9999);
         foodLevelChangeEvent.setCancelled(true);
     }
 }

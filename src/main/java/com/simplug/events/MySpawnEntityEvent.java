@@ -1,6 +1,9 @@
 package com.simplug.events;
 
+import com.simplug.Main;
+import com.simplug.data.entity.PlayerData;
 import com.simplug.service.PlayerDataService;
+import com.simplug.utils.MyComponents;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
@@ -14,9 +17,11 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 
 public class MySpawnEntityEvent implements Listener {
 
+    private final MyComponents myComponents;
     private final PlayerDataService playerDataService;
 
     public MySpawnEntityEvent(PlayerDataService playerDataService) {
+        myComponents = new MyComponents();
         this.playerDataService = playerDataService;
     }
 
@@ -29,24 +34,34 @@ public class MySpawnEntityEvent implements Listener {
                 getNearbyPlayers(new Location(entitySpawnEvent.getEntity().getWorld(), 9, 86, 17), 100)
                 .stream().findFirst().get();
 
+        PlayerData playerData = playerDataService.getByPlayerName(player.getName());
+        Long cowLvl = playerData.getSpawnChickenLvl();
+
+        if (entitySpawnEvent.getEntity() instanceof LivingEntity livingEntity) {
+
+            player.sendMessage("Rabotaet att");
+            livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0);
+            player.sendMessage("Rabotaet attdsa" + livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getValue());
+            livingEntity.getAttribute(Attribute.GENERIC_FLYING_SPEED).setBaseValue(0);
+            player.sendMessage("Rabotaet attas" + livingEntity.getAttribute(Attribute.GENERIC_FLYING_SPEED).getValue());
+            livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+            player.sendMessage("Rabotaet att" + livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).getValue());
+        }
+
         if (entitySpawnEvent.getEntity().getType().equals(EntityType.COW)) {
 
-            player.sendMessage("Rapotaet spawn");
+            player.sendMessage("Rabotaet spawn");
             Entity entity = entitySpawnEvent.getEntity();
 
-            if (entity instanceof LivingEntity) {
+            if (entity instanceof LivingEntity livingEntity) {
 
-                LivingEntity livingEntity = (LivingEntity) entity;
+                livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(301);
+                livingEntity.setHealth(300);
 
-                if (livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH) != null) {
+                Main.loggerGet().info("DAMAGE = " + livingEntity.getLastDamage());
+                livingEntity.customName(myComponents.hpBar(livingEntity.getHealth(), livingEntity.getHealth()));
+                livingEntity.setCustomNameVisible(true);
 
-                    livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(40);
-
-                } else {
-
-                    livingEntity.registerAttribute(Attribute.GENERIC_MAX_HEALTH);
-                    livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(40);
-                }
             }
         }
     }

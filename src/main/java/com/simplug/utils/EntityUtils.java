@@ -6,71 +6,99 @@ public class EntityUtils {
 
     public EntityType chicken() {
 
-        return EntityType.CHICKEN;
+        EntityType entityType = EntityType.CHICKEN;
+
+        return entityType;
     }
 
     public EntityType cow() {
 
-        return EntityType.COW;
+        EntityType entityType = EntityType.COW;
+
+        return entityType;
     }
 
     public EntityType pig() {
 
-        return EntityType.PIG;
+        EntityType entityType = EntityType.PIG;
+
+        return entityType;
     }
 
     public EntityType mushroomCow() {
 
-        return EntityType.MUSHROOM_COW;
+        EntityType entityType = EntityType.MUSHROOM_COW;
+
+        return entityType;
     }
 
     public EntityType sheep() {
 
-        return EntityType.SHEEP;
+        EntityType entityType = EntityType.SHEEP;
+
+        return entityType;
     }
 
     public EntityType horse() {
 
-        return EntityType.HORSE;
+        EntityType entityType = EntityType.HORSE;
+
+        return entityType;
     }
 
     public EntityType spider() {
 
-        return EntityType.SPIDER;
+        EntityType entityType = EntityType.SPIDER;
+
+        return entityType;
     }
 
     public EntityType caveSpider() {
 
-        return EntityType.CAVE_SPIDER;
+        EntityType entityType = EntityType.CAVE_SPIDER;
+
+        return entityType;
     }
 
     public EntityType golem() {
 
-        return EntityType.IRON_GOLEM;
+        EntityType entityType = EntityType.IRON_GOLEM;
+
+        return entityType;
     }
 
     public EntityType creeper() {
 
-        return EntityType.CREEPER;
+        EntityType entityType = EntityType.CREEPER;
+
+        return entityType;
     }
 
     public EntityType zombie() {
 
-        return EntityType.ZOMBIE;
+        EntityType entityType = EntityType.ZOMBIE;
+
+        return entityType;
     }
 
     public EntityType piglin() {
 
-        return EntityType.PIGLIN;
+        EntityType entityType = EntityType.PIGLIN;
+
+        return entityType;
     }
 
     public EntityType skeleton() {
 
-        return EntityType.SKELETON;
+        EntityType entityType = EntityType.SKELETON;
+
+        return entityType;
     }
 
     public EntityType wither() {
 
-        return EntityType.WITHER;
+        EntityType entityType = EntityType.WITHER_SKELETON;
+
+        return entityType;
     }
 }

@@ -65,6 +65,7 @@ public class ExpEvent implements Listener {
             int y = playerInteractEvent.getClickedBlock().getY();
             int z = playerInteractEvent.getClickedBlock().getZ();
             Player player = (Player) playerInteractEvent.getPlayer();
+            player.sendMessage("Chunk " + playerInteractEvent.getClickedBlock().getChunk().getChunkKey());
 
             PlayerData playerData = playerDataService.getByPlayerName(player.getName());
             Component component = Component.text("X=" + x).color(TextColor.color(255, 0, 13))
@@ -80,16 +81,16 @@ public class ExpEvent implements Listener {
 
                 if (nbtBlock.getData().getString("spawnMobLvl").equals("up")) {
 
-                    if (playerDataService.getByPlayerName(player.getName()).getSpawnEntityLvl1() < 14) {
+                    if (playerDataService.getByPlayerName(player.getName()).getSpawnChickenLvl() < 14) {
 
-                        playerDataService.getByPlayerName(player.getName()).setSpawnEntityLvl1(playerData.getSpawnEntityLvl1() + 1);
-                        player.sendMessage("LVL =" + playerDataService.getByPlayerName(player.getName()).getSpawnEntityLvl1());
+                        playerDataService.getByPlayerName(player.getName()).setSpawnChickenLvl(playerData.getSpawnChickenLvl() + 1);
+                        player.sendMessage("LVL =" + playerDataService.getByPlayerName(player.getName()).getSpawnChickenLvl());
                         playerDataService.invalidateCached(player.getName());
 
                     } else {
 
                         player.sendMessage("Достигнут максимальный уровень моба");
-                        player.sendMessage("LVL =" + playerDataService.getByPlayerName(player.getName()).getSpawnEntityLvl1());
+                        player.sendMessage("LVL =" + playerDataService.getByPlayerName(player.getName()).getSpawnChickenLvl());
                     }
                 }
             } else if (playerInteractEvent.getClickedBlock().getType().equals(Material.GOLD_BLOCK)) {
@@ -99,16 +100,16 @@ public class ExpEvent implements Listener {
 
                 if (nbtBlock.getData().getString("spawnMobLvl").equals("down")) {
 
-                    if (playerDataService.getByPlayerName(player.getName()).getSpawnEntityLvl1() > 0) {
+                    if (playerDataService.getByPlayerName(player.getName()).getSpawnChickenLvl() > 0) {
 
-                        playerDataService.getByPlayerName(player.getName()).setSpawnEntityLvl1(playerData.getSpawnEntityLvl1() - 1);
-                        player.sendMessage("LVL =" + playerDataService.getByPlayerName(player.getName()).getSpawnEntityLvl1());
+                        playerDataService.getByPlayerName(player.getName()).setSpawnChickenLvl(playerData.getSpawnChickenLvl() - 1);
+                        player.sendMessage("LVL =" + playerDataService.getByPlayerName(player.getName()).getSpawnChickenLvl());
                         playerDataService.invalidateCached(player.getName());
 
                     } else {
 
                         player.sendMessage("Достигнут минимальный уровень моба");
-                        player.sendMessage("LVL =" + playerDataService.getByPlayerName(player.getName()).getSpawnEntityLvl1());
+                        player.sendMessage("LVL =" + playerDataService.getByPlayerName(player.getName()).getSpawnChickenLvl());
                     }
                 }
             }
