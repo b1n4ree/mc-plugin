@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.scoreboard.*;
 
 public class JoinEvent implements Listener {
@@ -38,7 +39,6 @@ public class JoinEvent implements Listener {
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), new Runnable() {
             public void run() {
 
-                player.sendMessage("Start");
                 PlayerData playerData1 = playerDataService.getByPlayerName(playerName);
                 ScoreboardManager manager = Bukkit.getScoreboardManager();
                 player.setScoreboard(manager.getNewScoreboard());
@@ -60,59 +60,59 @@ public class JoinEvent implements Listener {
                 Score score = objective.getScore("Всего убийств");
                 score.setScore(Math.toIntExact(playerData1.getKillCount()));
                 if (playerData1.getIsSpawnableChicken()) {
-                    Score scoreChicken = objective.getScore("Убийст цыпочек");
+                    Score scoreChicken = objective.getScore("   Цыпочек");
                     scoreChicken.setScore(Math.toIntExact(playerData1.getKillCountChicken()));
                 }
                 if (playerData1.getIsSpawnableCow()) {
-                    Score scoreCow = objective.getScore("Убийств коров");
+                    Score scoreCow = objective.getScore("   Коров");
                     scoreCow.setScore(Math.toIntExact(playerData1.getKillCountCow()));
                 }
                 if (playerData1.getIsSpawnablePig()) {
-                    Score scorePig = objective.getScore("Убийств свинок");
+                    Score scorePig = objective.getScore("   Свинок");
                     scorePig.setScore(Math.toIntExact(playerData1.getKillCountPig()));
                 }
                 if (playerData1.getIsSpawnableMushroomCow()) {
-                    Score scoreMushroomCow = objective.getScore("Убийств грибных");
+                    Score scoreMushroomCow = objective.getScore("   Грибных");
                     scoreMushroomCow.setScore(Math.toIntExact(playerData1.getKillCountMushroomCow()));
                 }
                 if (playerData1.getIsSpawnableSheep()) {
-                    Score scoreSheep = objective.getScore("Убийств овец");
+                    Score scoreSheep = objective.getScore("   Овец");
                     scoreSheep.setScore(Math.toIntExact(playerData1.getKillCountSheep()));
                 }
                 if (playerData1.getIsSpawnableHorse()) {
-                    Score scoreHorse = objective.getScore("Убийств лошадей");
+                    Score scoreHorse = objective.getScore("   Лошадей");
                     scoreHorse.setScore(Math.toIntExact(playerData1.getKillCountHorse()));
                 }
                 if (playerData1.getIsSpawnableSpider()) {
-                    Score scoreSpider = objective.getScore("Убийств пауков");
+                    Score scoreSpider = objective.getScore("   Пауков");
                     scoreSpider.setScore(Math.toIntExact(playerData1.getKillCountSpider()));
                 }
                 if (playerData1.getIsSpawnableCaveSpider()) {
-                    Score scoreCaveSpider = objective.getScore("Убийств пешерных пауков");
+                    Score scoreCaveSpider = objective.getScore("   Пешерных");
                     scoreCaveSpider.setScore(Math.toIntExact(playerData1.getKillCountCaveSpider()));
                 }
                 if (playerData1.getIsSpawnableGolem()) {
-                    Score scoreGolem = objective.getScore("Убийств големов");
+                    Score scoreGolem = objective.getScore("   Големов");
                     scoreGolem.setScore(Math.toIntExact(playerData1.getKillCountGolem()));
                 }
                 if (playerData1.getIsSpawnableCreeper()) {
-                    Score scoreCreeper = objective.getScore("Убийст криперов");
+                    Score scoreCreeper = objective.getScore("   Криперов");
                     scoreCreeper.setScore(Math.toIntExact(playerData1.getKillCountCreeper()));
                 }
                 if (playerData1.getIsSpawnableZombie()) {
-                    Score scoreZombie = objective.getScore("Убийств зомби");
+                    Score scoreZombie = objective.getScore("   Зомби");
                     scoreZombie.setScore(Math.toIntExact(playerData1.getKillCountZombie()));
                 }
                 if (playerData1.getIsSpawnablePigZombie()) {
-                    Score scorePiglin = objective.getScore("Убийств свино-зомби");
+                    Score scorePiglin = objective.getScore("   Свино-зомби");
                     scorePiglin.setScore(Math.toIntExact(playerData1.getKillCountPigZombie()));
                 }
                 if (playerData1.getIsSpawnableSkeleton()) {
-                    Score scoreSkeleton = objective.getScore("Убийств скелетов");
+                    Score scoreSkeleton = objective.getScore("   Скелетов");
                     scoreSkeleton.setScore(Math.toIntExact(playerData1.getKillCountSkeleton()));
                 }
                 if (playerData1.getIsSpawnableWither()) {
-                    Score scoreWither = objective.getScore("Убийств иссушителей");
+                    Score scoreWither = objective.getScore("   Иссушителей");
                     scoreWither.setScore(Math.toIntExact(playerDataService.getByPlayerName(playerName).getKillCountWither()));
                 }
 //                player.setScoreboard(board);

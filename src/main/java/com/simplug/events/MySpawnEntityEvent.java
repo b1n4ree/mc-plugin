@@ -1,12 +1,10 @@
 package com.simplug.events;
 
-import com.simplug.Main;
 import com.simplug.data.entity.PlayerData;
 import com.simplug.service.PlayerDataService;
 import com.simplug.utils.MyComponents;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -35,33 +33,137 @@ public class MySpawnEntityEvent implements Listener {
                 .stream().findFirst().get();
 
         PlayerData playerData = playerDataService.getByPlayerName(player.getName());
-        Long cowLvl = playerData.getSpawnChickenLvl();
 
         if (entitySpawnEvent.getEntity() instanceof LivingEntity livingEntity) {
 
-            player.sendMessage("Rabotaet att");
-            livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0);
-            player.sendMessage("Rabotaet attdsa" + livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getValue());
-            livingEntity.getAttribute(Attribute.GENERIC_FLYING_SPEED).setBaseValue(0);
-            player.sendMessage("Rabotaet attas" + livingEntity.getAttribute(Attribute.GENERIC_FLYING_SPEED).getValue());
-            livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
-            player.sendMessage("Rabotaet att" + livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).getValue());
-        }
+            livingEntity.customName(myComponents.hpBar(livingEntity.getHealth(), livingEntity.getHealth()));
+            livingEntity.setCustomNameVisible(true);
 
-        if (entitySpawnEvent.getEntity().getType().equals(EntityType.COW)) {
+            if (livingEntity.getType().equals(EntityType.CHICKEN)) {
 
-            player.sendMessage("Rabotaet spawn");
-            Entity entity = entitySpawnEvent.getEntity();
+                if (livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+                if (livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+            }
+            if (livingEntity.getType().equals(EntityType.COW)) {
 
-            if (entity instanceof LivingEntity livingEntity) {
+                if (livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+                if (livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+            }
+            if (livingEntity.getType().equals(EntityType.PIG)) {
 
-                livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(301);
-                livingEntity.setHealth(300);
+                if (livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+                if (livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+            }
+            if (livingEntity.getType().equals(EntityType.MUSHROOM_COW)) {
 
-                Main.loggerGet().info("DAMAGE = " + livingEntity.getLastDamage());
-                livingEntity.customName(myComponents.hpBar(livingEntity.getHealth(), livingEntity.getHealth()));
-                livingEntity.setCustomNameVisible(true);
+                if (livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+                if (livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+            }
+            if (livingEntity.getType().equals(EntityType.SHEEP)) {
 
+                if (livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+                if (livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+            }
+            if (livingEntity.getType().equals(EntityType.HORSE)) {
+
+                if (livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+                if (livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+            }
+            if (livingEntity.getType().equals(EntityType.SPIDER)) {
+
+                if (livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+                if (livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+            }
+            if (livingEntity.getType().equals(EntityType.CAVE_SPIDER)) {
+
+                if (livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+                if (livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+            }
+            if (livingEntity.getType().equals(EntityType.IRON_GOLEM)) {
+
+                if (livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+                if (livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+            }
+            if (livingEntity.getType().equals(EntityType.CREEPER)) {
+
+                if (livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+                if (livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+            }
+            if (livingEntity.getType().equals(EntityType.ZOMBIE)) {
+
+                if (livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+                if (livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+            }
+            if (livingEntity.getType().equals(EntityType.PIGLIN)) {
+
+                if (livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+                if (livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+            }
+            if (livingEntity.getType().equals(EntityType.SKELETON)) {
+
+                if (livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+                if (livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+            }
+            if (livingEntity.getType().equals(EntityType.WITHER_SKELETON)) {
+
+                if (livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
+                if (livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+                    livingEntity.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(0);
+                }
             }
         }
     }

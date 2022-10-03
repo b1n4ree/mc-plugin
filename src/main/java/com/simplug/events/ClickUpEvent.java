@@ -3,12 +3,18 @@ package com.simplug.events;
 import com.simplug.data.entity.PlayerData;
 import com.simplug.service.PlayerDataService;
 import com.simplug.utils.ItemsUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 
@@ -25,12 +31,22 @@ public class ClickUpEvent implements Listener {
     @EventHandler
     public void click(InventoryClickEvent inventoryInteractEvent) {
 
+        if (inventoryInteractEvent.getWhoClicked() instanceof Player player) {
+
+            Inventory inventory = Bukkit.createInventory(player, 54, "Test");
+
+            if (inventoryInteractEvent.getCurrentItem().getType().equals(Material.STONE_AXE)) {
+
+                player.sendMessage("Open inventory");
+                player.openInventory(inventory);
+            }
+        }
+
         if (inventoryInteractEvent.getWhoClicked().getInventory().getItem(2) != null) {
             inventoryInteractEvent.setCancelled(true);
         }
 
         if (inventoryInteractEvent.getCurrentItem() != null) {
-            Player player = null;
 
             PlayerData playerData = playerDataService.getByPlayerName(inventoryInteractEvent.getWhoClicked().getName());
 
