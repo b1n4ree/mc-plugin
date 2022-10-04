@@ -28,3 +28,7 @@ commands:
   test:
     description: Test command
     usage: /test
+
+  update:
+    description: Update info
+    usage: /update

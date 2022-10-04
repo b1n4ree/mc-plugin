@@ -8,6 +8,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -15,6 +16,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scoreboard.*;
 
 public class JoinEvent implements Listener {
@@ -32,6 +35,23 @@ public class JoinEvent implements Listener {
     public void join(PlayerJoinEvent playerJoinEvent) {
 
         Player player = playerJoinEvent.getPlayer();
+
+        player.setCollidable(false);
+        PlayerInventory playerInventory = player.getInventory();
+        playerInventory.setItem(9, new ItemStack(Material.CHICKEN_SPAWN_EGG));
+        playerInventory.setItem(10, new ItemStack(Material.COW_SPAWN_EGG));
+        playerInventory.setItem(11, new ItemStack(Material.PIG_SPAWN_EGG));
+        playerInventory.setItem(12, new ItemStack(Material.MOOSHROOM_SPAWN_EGG));
+        playerInventory.setItem(13, new ItemStack(Material.SHEEP_SPAWN_EGG));
+        playerInventory.setItem(14, new ItemStack(Material.HORSE_SPAWN_EGG));
+        playerInventory.setItem(15, new ItemStack(Material.SPIDER_SPAWN_EGG));
+        playerInventory.setItem(16, new ItemStack(Material.CAVE_SPIDER_SPAWN_EGG));
+        playerInventory.setItem(17, new ItemStack(Material.IRON_BLOCK));
+        playerInventory.setItem(18, new ItemStack(Material.CREEPER_SPAWN_EGG));
+        playerInventory.setItem(19, new ItemStack(Material.ZOMBIE_SPAWN_EGG));
+        playerInventory.setItem(20, new ItemStack(Material.PIGLIN_SPAWN_EGG));
+        playerInventory.setItem(21, new ItemStack(Material.SKELETON_SPAWN_EGG));
+        playerInventory.setItem(22, new ItemStack(Material.WITHER_SKELETON_SPAWN_EGG));
         String playerName = player.getName();
         PlayerData playerData = playerDataService.getByPlayerName(playerName);
         playerData.setKillCount(playerData.getKillCountPig() + playerData.getKillCountCow());

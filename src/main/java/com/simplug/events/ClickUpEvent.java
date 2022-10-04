@@ -61,8 +61,6 @@ public class ClickUpEvent implements Listener {
 
             if (inventoryInteractEvent.getCurrentItem().hasItemMeta()) {
 
-                playerDataService.invalidateCached(inventoryInteractEvent.getWhoClicked().getName());
-
                 inventoryInteractEvent.getWhoClicked().sendMessage("Current item click " + inventoryInteractEvent.getCurrentItem().getType());
                 ItemStack itemStack = inventoryInteractEvent.getCurrentItem();
 

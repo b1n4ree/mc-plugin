@@ -33,9 +33,9 @@ public class ExpEvent implements Listener {
         Player player = null;
         entityDeathEvent.getDrops().clear();
 
-        if (entityDeathEvent.getEntity().getKiller() == null) {
-            entityDeathEvent.setCancelled(true);
-        }
+//        if (entityDeathEvent.getEntity().getKiller() == null) {
+//            entityDeathEvent.setCancelled(true);
+//        }
 
         if (entityDeathEvent.getEntity().getKiller() != null) {
 
@@ -176,7 +176,6 @@ public class ExpEvent implements Listener {
 
                         playerDataService.getByPlayerName(player.getName()).setSpawnChickenLvl(playerData.getSpawnChickenLvl() + 1);
                         player.sendMessage("LVL =" + playerDataService.getByPlayerName(player.getName()).getSpawnChickenLvl());
-                        playerDataService.invalidateCached(player.getName());
 
                     } else {
 
@@ -195,7 +194,6 @@ public class ExpEvent implements Listener {
 
                         playerDataService.getByPlayerName(player.getName()).setSpawnChickenLvl(playerData.getSpawnChickenLvl() - 1);
                         player.sendMessage("LVL =" + playerDataService.getByPlayerName(player.getName()).getSpawnChickenLvl());
-                        playerDataService.invalidateCached(player.getName());
 
                     } else {
 

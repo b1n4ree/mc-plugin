@@ -12,6 +12,7 @@ import de.tr7zw.nbtapi.NBTTileEntity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
@@ -66,6 +67,9 @@ public class Main  extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new MyInventoryMoveItemEvent(), this);
         Bukkit.getPluginManager().registerEvents(new MyBlockPlaceEvent(), this);
         Bukkit.getPluginManager().registerEvents(new MyFoodEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new MyEntityCombustEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new MyEntityShootBowEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new MyVehicleEntityCollisionEvent(), this);
     }
 
     private void registerCommands() {
@@ -121,6 +125,11 @@ public class Main  extends JavaPlugin {
                 PlayerInventory playerInventory = player.getInventory();
                 playerInventory.addItem(sword);
 
+            } else if (cmd.getName().equalsIgnoreCase("update")) {
+
+                PlayerData playerData = playerDataService.getByPlayerName(sender.getName());
+                playerDataDao.update(playerData);
+                player.sendMessage(ChatColor.RED + "Update))");
             }
             return true;
 

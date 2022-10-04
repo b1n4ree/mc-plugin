@@ -21,14 +21,12 @@ public class DamageEvent implements Listener {
     @EventHandler
     public void damage(EntityDamageByEntityEvent entityDamageEvent) {
 
-        Main.loggerGet().info("Entity damage event");
+//        if (!(entityDamageEvent.getDamager() instanceof Player)) {
+//
+//            Main.loggerGet().info("EntityDamageEvent is cancelled");
+//            entityDamageEvent.setCancelled(true);
+//        }
 
-        if (!(entityDamageEvent.getDamager() instanceof Player)) {
-
-            Main.loggerGet().info("EntityDamageEvent is cancelled");
-            entityDamageEvent.setCancelled(true);
-
-        }
         if (entityDamageEvent.getDamager() instanceof Player) {
 
             Player player = (Player) entityDamageEvent.getDamager();
