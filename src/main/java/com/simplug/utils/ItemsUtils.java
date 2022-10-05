@@ -1,17 +1,14 @@
 package com.simplug.utils;
 
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 public class ItemsUtils {
 
-
-
-    public ItemStack woodenSword(String name) {
-
-        ItemStack itemStack = new ItemStack(Material.WOODEN_SWORD);
+    @NotNull
+    public ItemStack getMyCustomItemStack(ItemStack itemStack) {
         ItemMeta itemMeta = itemStack.getItemMeta();
 
         itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -26,77 +23,4 @@ public class ItemsUtils {
 
         return itemStack;
     }
-
-    public ItemStack stoneSword() {
-
-        ItemStack itemStack = new ItemStack(Material.STONE_SWORD);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-
-        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        itemMeta.addItemFlags(ItemFlag.HIDE_DESTROYS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_DYE);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-        itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-        itemMeta.setUnbreakable(true);
-        itemStack.setItemMeta(itemMeta);
-
-        return itemStack;
-    }
-
-    public ItemStack ironSword() {
-
-        ItemStack itemStack = new ItemStack(Material.IRON_SWORD);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-
-        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        itemMeta.addItemFlags(ItemFlag.HIDE_DESTROYS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_DYE);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-        itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-        itemMeta.setUnbreakable(true);
-        itemStack.setItemMeta(itemMeta);
-
-        return itemStack;
-    }
-
-    public ItemStack goldenSword() {
-
-        ItemStack itemStack = new ItemStack(Material.GOLDEN_SWORD);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-
-        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        itemMeta.addItemFlags(ItemFlag.HIDE_DESTROYS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_DYE);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-        itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-        itemMeta.setUnbreakable(true);
-        itemStack.setItemMeta(itemMeta);
-
-        return itemStack;
-    }
-
-    public ItemStack diamondSword() {
-
-        ItemStack itemStack = new ItemStack(Material.DIAMOND_SWORD);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-
-        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        itemMeta.addItemFlags(ItemFlag.HIDE_DESTROYS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_DYE);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-        itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-        itemMeta.setUnbreakable(true);
-        itemStack.setItemMeta(itemMeta);
-
-        return itemStack;
-    }
-
 }

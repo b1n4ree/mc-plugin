@@ -1,21 +1,22 @@
 package com.simplug.utils;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Bukkit;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class InventoryUtils {
 
-    public Inventory inventoryWeaponLvl() {
+    private final ItemsUtils itemsUtils;
 
-        Inventory inventory = Bukkit.createInventory(null, 54, Component.text("Weapon Up").color(
-                TextColor.color(0, 255, 248)
-        ));
+    public InventoryUtils() {
+        itemsUtils = new ItemsUtils();
+    }
 
+    public void startInventory(Player player) {
 
-
-        return inventory;
+        player.getInventory().setItem(0, itemsUtils.getMyCustomItemStack(new ItemStack(Material.WOODEN_SWORD)));
+        player.getInventory().setItem(1, itemsUtils.getMyCustomItemStack(new ItemStack(Material.WOODEN_PICKAXE)));
+        player.getInventory().setItem(2, itemsUtils.getMyCustomItemStack(new ItemStack(Material.WOODEN_AXE)));
+        player.getInventory().setItem(4, itemsUtils.getMyCustomItemStack(new ItemStack(Material.DIAMOND)));
     }
 }

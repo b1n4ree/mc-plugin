@@ -67,23 +67,23 @@ public class ClickUpEvent implements Listener {
                 if (count >= 100 && countPig >= 50 && countCow >= 50 && inventoryInteractEvent.getCurrentItem().getType().equals(Material.WOODEN_SWORD)) {
 
                     inventoryInteractEvent.getWhoClicked().getInventory().remove(itemStack);
-                    inventoryInteractEvent.getWhoClicked().getInventory().setItem(0, itemsUtils.stoneSword());
+                    inventoryInteractEvent.getWhoClicked().getInventory().setItem(0, itemsUtils.getMyCustomItemStack(new ItemStack(Material.STONE_SWORD)));
 
                 } else if (count >= 200 && countPig >= 100 && countCow >= 100 && inventoryInteractEvent.getCurrentItem().getType().equals(Material.STONE_SWORD)) {
 
 
                     inventoryInteractEvent.getWhoClicked().getInventory().remove(itemStack);
-                    inventoryInteractEvent.getWhoClicked().getInventory().setItem(0, itemsUtils.ironSword());
+                    inventoryInteractEvent.getWhoClicked().getInventory().setItem(0, itemsUtils.getMyCustomItemStack(new ItemStack(Material.IRON_SWORD)));
 
                 } else if (count >= 300 && countPig >= 150 && countCow >= 150 && inventoryInteractEvent.getCurrentItem().getType().equals(Material.IRON_SWORD)) {
 
                     inventoryInteractEvent.getWhoClicked().getInventory().remove(itemStack);
-                    inventoryInteractEvent.getWhoClicked().getInventory().setItem(0, itemsUtils.goldenSword());
+                    inventoryInteractEvent.getWhoClicked().getInventory().setItem(0, itemsUtils.getMyCustomItemStack(new ItemStack(Material.GOLDEN_SWORD)));
 
                 } else if (count >= 400 && countPig >= 200 && countCow >= 200 && inventoryInteractEvent.getCurrentItem().getType().equals(Material.GOLDEN_SWORD)) {
 
                     inventoryInteractEvent.getWhoClicked().getInventory().remove(itemStack);
-                    inventoryInteractEvent.getWhoClicked().getInventory().setItem(0, itemsUtils.diamondSword());
+                    inventoryInteractEvent.getWhoClicked().getInventory().setItem(0, itemsUtils.getMyCustomItemStack(new ItemStack(Material.DIAMOND_SWORD)));
                 }
             }
         }

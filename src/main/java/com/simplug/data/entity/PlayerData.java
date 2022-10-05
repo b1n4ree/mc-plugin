@@ -154,6 +154,8 @@ public class PlayerData {
     @Column(name = "is_spawnable_wither", nullable = false)
     private Boolean isSpawnableWither;
 
+    @Column(name = "is_first_on_server", nullable = false)
+    private Boolean isFirstOnServer;
 //    @PrePersist
 //    protected void beforeSave() {
 //        lastModifiedDate = Instant.now();

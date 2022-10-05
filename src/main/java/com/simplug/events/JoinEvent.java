@@ -4,6 +4,7 @@ import com.simplug.Main;
 import com.simplug.data.entity.PlayerData;
 import com.simplug.service.PlayerDataService;
 import com.simplug.utils.EntityUtils;
+import com.simplug.utils.InventoryUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
@@ -15,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scoreboard.*;
@@ -24,10 +24,12 @@ public class JoinEvent implements Listener {
 
     private final PlayerDataService playerDataService;
     private final EntityUtils entityUtils;
+    private final InventoryUtils inventoryUtils;
 
     public JoinEvent(PlayerDataService playerDataService) {
         this.playerDataService = playerDataService;
         entityUtils = new EntityUtils();
+        inventoryUtils = new InventoryUtils();
     }
 
 
@@ -56,6 +58,11 @@ public class JoinEvent implements Listener {
         PlayerData playerData = playerDataService.getByPlayerName(playerName);
         playerData.setKillCount(playerData.getKillCountPig() + playerData.getKillCountCow());
 
+        if (playerData.getIsFirstOnServer()) {
+
+            inventoryUtils.startInventory(player);
+            playerData.setIsFirstOnServer(false);
+        }
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), new Runnable() {
             public void run() {
 
@@ -199,6 +206,94 @@ public class JoinEvent implements Listener {
             } else if (EntityType.WITHER.equals(entity.getType())) {
                 witherCount++;
 
+            }
+        }
+
+        for (Entity entity : player.getWorld().getChunkAt(0).getEntities()) {
+
+            if (EntityType.CHICKEN.equals(entity.getType())) {
+                if (chickenCount > 1) {
+                    entity.remove();
+                    chickenCount = chickenCount - 1;
+                }
+
+            } else if (EntityType.COW.equals(entity.getType())) {
+                if (cowCount > 1) {
+                    entity.remove();
+                    cowCount = cowCount - 1;
+                }
+
+            } else if (EntityType.PIG.equals(entity.getType())) {
+                if (pigCount > 1) {
+                    entity.remove();
+                    pigCount = pigCount - 1;
+                }
+
+            } else if (EntityType.MUSHROOM_COW.equals(entity.getType())) {
+                if (mushroomCowCount > 1) {
+                    entity.remove();
+                    mushroomCowCount = mushroomCowCount - 1;
+                }
+
+            } else if (EntityType.SHEEP.equals(entity.getType())) {
+                if (sheepCount > 1) {
+                    entity.remove();
+                    sheepCount = sheepCount - 1;
+                }
+
+            } else if (EntityType.HORSE.equals(entity.getType())) {
+                if (horseCount > 1) {
+                    entity.remove();
+                    horseCount = horseCount - 1;
+                }
+
+            } else if (EntityType.SPIDER.equals(entity.getType())) {
+                if (spiderCount > 1) {
+                    entity.remove();
+                    spiderCount = spiderCount - 1;
+                }
+
+            } else if (EntityType.CAVE_SPIDER.equals(entity.getType())) {
+                if (caveSpiderCount > 1) {
+                    entity.remove();
+                    caveSpiderCount = caveSpiderCount - 1;
+                }
+
+            } else if (EntityType.IRON_GOLEM.equals(entity.getType())) {
+                if (golemCount > 1) {
+                    entity.remove();
+                    golemCount = golemCount - 1;
+                }
+
+            } else if (EntityType.CREEPER.equals(entity.getType())) {
+                if (creeperCount > 1) {
+                    entity.remove();
+                    creeperCount = creeperCount - 1;
+                }
+
+            } else if (EntityType.ZOMBIE.equals(entity.getType())) {
+                if (zombieCount > 1) {
+                    entity.remove();
+                    zombieCount = zombieCount - 1;
+                }
+
+            } else if (EntityType.PIGLIN.equals(entity.getType())) {
+                if (pigZombieCount > 1) {
+                    entity.remove();
+                    pigZombieCount = pigZombieCount -1;
+                }
+
+            } else if (EntityType.SKELETON.equals(entity.getType())) {
+                if (skeletonCount > 1) {
+                    entity.remove();
+                    skeletonCount = skeletonCount - 1;
+                }
+
+            } else if (EntityType.WITHER.equals(entity.getType())) {
+                if (witherCount > 1) {
+                    entity.remove();
+                    witherCount = witherCount - 1;
+                }
             }
         }
         Location chickenLocation = new Location(player.getWorld(), 13, 85, 1);

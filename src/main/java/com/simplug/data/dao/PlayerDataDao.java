@@ -28,7 +28,7 @@ public class PlayerDataDao {
 
         session.persist(new PlayerData(playerName, 0L, "default", 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L,
                 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, false, false, false, false, false,
-                false, false, false, false, false, false, false, false, false));
+                false, false, false, false, false, false, false, false, false, true));
 
         playerData = session.get(PlayerData.class, playerName);
 
