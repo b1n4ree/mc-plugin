@@ -66,7 +66,7 @@ public class PlayerDataService {
             playerDataDao.updateAll(playerDataList);
             log.info("[Авто-сохранение] Вызов метода сохранения в базу данных занял = " + (System.currentTimeMillis() - startMillis) + "ms");
 
-        }, 5, 5, TimeUnit.MINUTES);
+        }, 10, 10, TimeUnit.SECONDS);
     }
 
     private PlayerData findOrCreateByPlayerName(String playerName) {

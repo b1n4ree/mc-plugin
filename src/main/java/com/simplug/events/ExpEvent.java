@@ -70,7 +70,7 @@ public class ExpEvent implements Listener {
 
                 playerData.setKillCountPig(playerData.getKillCountPig() + 1);
                 entityDeathEvent.getEntity().getWorld().spawnEntity(pigLocation, entityUtils.pig());
-                playerData.setKillCount(playerData.getKillCountPig() + playerData.getKillCountCow());
+                playerData.setKillCount(playerData.getKillCount() + 1);
 
             } else if (entityType.equals(entityUtils.chicken())) {
 

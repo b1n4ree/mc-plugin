@@ -55,7 +55,7 @@ public class PlayerData {
     @Column(name = "spawn_creeper_lvl", nullable = false)
     private Long spawnCreeperLvl;
 
-    @Column(name = "spawn_zombie", nullable = false)
+    @Column(name = "spawn_zombie_lvl", nullable = false)
     private Long spawnZombieLvl;
 
     @Column(name = "spawn_pig_zombie_lvl", nullable = false)

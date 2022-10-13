@@ -7,15 +7,13 @@ import com.simplug.events.*;
 import com.simplug.gui.TestGui;
 import com.simplug.listener.PlayerQuitAndJoinListener;
 import com.simplug.service.PlayerDataService;
+import com.simplug.utils.InventoryUtils;
 import de.tr7zw.nbtapi.NBTItem;
-import de.tr7zw.nbtapi.NBTTileEntity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Chest;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
@@ -37,6 +35,7 @@ public class Main  extends JavaPlugin {
     private Location arenaLocation = new Location(Bukkit.getWorld("world"), 50, 50, 50);
     private static Main instance;
     private static Logger logger;
+    private InventoryUtils inventoryUtils;
     private SessionFactory sessionFactory;
     private PlayerDataService playerDataService;
     private PlayerDataDao playerDataDao;
@@ -55,13 +54,13 @@ public class Main  extends JavaPlugin {
         logger.info("Start SimPlug");
 
         playerDataService = new PlayerDataService(playerDataDao, logger);
-
+        inventoryUtils = new InventoryUtils(playerDataService);
         Bukkit.getPluginManager().registerEvents(new ExpEvent(playerDataService), this);
         Bukkit.getPluginManager().registerEvents(new DamageEvent(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerQuitAndJoinListener(playerDataService, logger), this);
         registerCommands();
-        Bukkit.getPluginManager().registerEvents(new JoinEvent(playerDataService), this);
-        Bukkit.getPluginManager().registerEvents(new ClickUpEvent(playerDataService), this);
+        Bukkit.getPluginManager().registerEvents(new JoinEvent(playerDataService, inventoryUtils), this);
+        Bukkit.getPluginManager().registerEvents(new ClickUpEvent(playerDataService, inventoryUtils), this);
         Bukkit.getPluginManager().registerEvents(new MySpawnEntityEvent(playerDataService), this);
         Bukkit.getPluginManager().registerEvents(new DropCancelEvent(), this);
         Bukkit.getPluginManager().registerEvents(new MyInventoryMoveItemEvent(), this);
@@ -125,11 +124,15 @@ public class Main  extends JavaPlugin {
                 PlayerInventory playerInventory = player.getInventory();
                 playerInventory.addItem(sword);
 
-            } else if (cmd.getName().equalsIgnoreCase("update")) {
+            } else if (cmd.getName().equalsIgnoreCase("diamondnbt")) {
 
-                PlayerData playerData = playerDataService.getByPlayerName(sender.getName());
-                playerDataDao.update(playerData);
-                player.sendMessage(ChatColor.RED + "Update))");
+                ItemStack itemStack = new ItemStack(Material.DIAMOND_PICKAXE, 1);
+                NBTItem nbtItem = new NBTItem(itemStack);
+                nbtItem.setString("start", "spawn");
+                player.sendMessage(nbtItem.getString("start"));
+                ItemStack newItemStack = nbtItem.getItem();
+                PlayerInventory playerInventory = player.getInventory();
+                playerInventory.addItem(newItemStack);
             }
             return true;
 

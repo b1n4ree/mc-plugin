@@ -1,30 +1,33 @@
 package com.simplug.events;
 
+import com.simplug.Main;
 import com.simplug.data.entity.PlayerData;
 import com.simplug.service.PlayerDataService;
+import com.simplug.utils.InventoryUtils;
 import com.simplug.utils.ItemsUtils;
+import de.tr7zw.nbtapi.NBTItem;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scoreboard.*;
 
 
 public class ClickUpEvent implements Listener {
 
     private final ItemsUtils itemsUtils;
     private final PlayerDataService playerDataService;
+    private final InventoryUtils inventoryUtils;
 
-    public ClickUpEvent(PlayerDataService playerDataService) {
+    public ClickUpEvent(PlayerDataService playerDataService, InventoryUtils inventoryUtils) {
         this.playerDataService = playerDataService;
+        this.inventoryUtils = inventoryUtils;
         itemsUtils = new ItemsUtils();
     }
 
@@ -32,58 +35,114 @@ public class ClickUpEvent implements Listener {
     public void click(InventoryClickEvent inventoryInteractEvent) {
 
         if (inventoryInteractEvent.getWhoClicked() instanceof Player player) {
+            if (inventoryInteractEvent.getCurrentItem() != null) {
 
-            Inventory inventory = Bukkit.createInventory(player, 54, "Test");
+                PlayerData playerData = playerDataService.getByPlayerName(inventoryInteractEvent.getWhoClicked().getName());
 
-            if (inventoryInteractEvent.getCurrentItem().getType().equals(Material.STONE_AXE)) {
+                String playerName = playerData.getPlayerName();
 
-                player.sendMessage("Open inventory");
-                player.openInventory(inventory);
-            }
-        }
+                if (playerData.getIsFirstOnServer()) {
 
-        if (inventoryInteractEvent.getWhoClicked().getInventory().getItem(2) != null) {
-            inventoryInteractEvent.setCancelled(true);
-        }
+                    inventoryUtils.startInventory(player);
+                    playerData.setIsFirstOnServer(false);
+                }
 
-        if (inventoryInteractEvent.getCurrentItem() != null) {
+                inventoryInteractEvent.getWhoClicked().sendMessage(ChatColor.GOLD + "Клик по айтему");
 
-            PlayerData playerData = playerDataService.getByPlayerName(inventoryInteractEvent.getWhoClicked().getName());
+                if (!inventoryInteractEvent.getCurrentItem().getType().equals(Material.AIR)) {
+                    ItemStack currentItem = inventoryInteractEvent.getCurrentItem();
+                    NBTItem currentItemNbt = new NBTItem(currentItem);
 
-            Long count = playerData.getKillCount();
-            Long countPig = playerData.getKillCountPig();
-            Long countCow = playerData.getKillCountCow();
+                    if (currentItemNbt.getString("start").equals("spawn")) {
 
-            inventoryInteractEvent.getWhoClicked().sendMessage(ChatColor.GOLD + "Клик по айтему");
-            ExpEvent expEvent = new ExpEvent(playerDataService);
+                        player.openInventory(inventoryUtils.spawnDiamondInventory(player));
 
-            inventoryInteractEvent.getWhoClicked().sendMessage(ChatColor.BLACK + "" + count);
+                    } else if (currentItemNbt.getString("start").equals("update")) {
 
-            if (inventoryInteractEvent.getCurrentItem().hasItemMeta()) {
+                        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), new Runnable() {
+                            public void run() {
 
-                inventoryInteractEvent.getWhoClicked().sendMessage("Current item click " + inventoryInteractEvent.getCurrentItem().getType());
-                ItemStack itemStack = inventoryInteractEvent.getCurrentItem();
+                                ScoreboardManager manager = Bukkit.getScoreboardManager();
+                                player.setScoreboard(manager.getNewScoreboard());
+//                    final Scoreboard board = manager.getNewScoreboard();
 
-                if (count >= 100 && countPig >= 50 && countCow >= 50 && inventoryInteractEvent.getCurrentItem().getType().equals(Material.WOODEN_SWORD)) {
+                                Scoreboard board = player.getScoreboard();
 
-                    inventoryInteractEvent.getWhoClicked().getInventory().remove(itemStack);
-                    inventoryInteractEvent.getWhoClicked().getInventory().setItem(0, itemsUtils.getMyCustomItemStack(new ItemStack(Material.STONE_SWORD)));
+                                Objective objective;
+                                if (board.getObjective("simplug") == null) {
+                                    objective = board.registerNewObjective("simplug", "dummy", Component.text("Stats by " + playerName).color(TextColor.color(200, 43, 169)));
+                                } else {
+                                    objective = board.getObjective("simplug");
+                                }
 
-                } else if (count >= 200 && countPig >= 100 && countCow >= 100 && inventoryInteractEvent.getCurrentItem().getType().equals(Material.STONE_SWORD)) {
+                                objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+                                //objective.displayName(Component.text("DisplayName"));
+                                //objective.setRenderType((new Random()).nextBoolean() ? RenderType.HEARTS : RenderType.INTEGER);
+//                Main.loggerGet().info(" " + playerData1.getIsSpawnableWither());
+                                Score score = objective.getScore("Всего убийств");
+                                score.setScore(Math.toIntExact(playerData.getKillCount()));
+                                if (playerData.getIsSpawnableChicken()) {
+                                    Score scoreChicken = objective.getScore("   Цыпочек");
+                                    scoreChicken.setScore(Math.toIntExact(playerData.getKillCountChicken()));
+                                }
+                                if (playerData.getIsSpawnableCow()) {
+                                    Score scoreCow = objective.getScore("   Коров");
+                                    scoreCow.setScore(Math.toIntExact(playerData.getKillCountCow()));
+                                }
+                                if (playerData.getIsSpawnablePig()) {
+                                    Score scorePig = objective.getScore("   Свинок");
+                                    scorePig.setScore(Math.toIntExact(playerData.getKillCountPig()));
+                                }
+                                if (playerData.getIsSpawnableMushroomCow()) {
+                                    Score scoreMushroomCow = objective.getScore("   Грибных");
+                                    scoreMushroomCow.setScore(Math.toIntExact(playerData.getKillCountMushroomCow()));
+                                }
+                                if (playerData.getIsSpawnableSheep()) {
+                                    Score scoreSheep = objective.getScore("   Овец");
+                                    scoreSheep.setScore(Math.toIntExact(playerData.getKillCountSheep()));
+                                }
+                                if (playerData.getIsSpawnableHorse()) {
+                                    Score scoreHorse = objective.getScore("   Лошадей");
+                                    scoreHorse.setScore(Math.toIntExact(playerData.getKillCountHorse()));
+                                }
+                                if (playerData.getIsSpawnableSpider()) {
+                                    Score scoreSpider = objective.getScore("   Пауков");
+                                    scoreSpider.setScore(Math.toIntExact(playerData.getKillCountSpider()));
+                                }
+                                if (playerData.getIsSpawnableCaveSpider()) {
+                                    Score scoreCaveSpider = objective.getScore("   Пешерных");
+                                    scoreCaveSpider.setScore(Math.toIntExact(playerData.getKillCountCaveSpider()));
+                                }
+                                if (playerData.getIsSpawnableGolem()) {
+                                    Score scoreGolem = objective.getScore("   Големов");
+                                    scoreGolem.setScore(Math.toIntExact(playerData.getKillCountGolem()));
+                                }
+                                if (playerData.getIsSpawnableCreeper()) {
+                                    Score scoreCreeper = objective.getScore("   Криперов");
+                                    scoreCreeper.setScore(Math.toIntExact(playerData.getKillCountCreeper()));
+                                }
+                                if (playerData.getIsSpawnableZombie()) {
+                                    Score scoreZombie = objective.getScore("   Зомби");
+                                    scoreZombie.setScore(Math.toIntExact(playerData.getKillCountZombie()));
+                                }
+                                if (playerData.getIsSpawnablePigZombie()) {
+                                    Score scorePiglin = objective.getScore("   Свино-зомби");
+                                    scorePiglin.setScore(Math.toIntExact(playerData.getKillCountPigZombie()));
+                                }
+                                if (playerData.getIsSpawnableSkeleton()) {
+                                    Score scoreSkeleton = objective.getScore("   Скелетов");
+                                    scoreSkeleton.setScore(Math.toIntExact(playerData.getKillCountSkeleton()));
+                                }
+                                if (playerData.getIsSpawnableWither()) {
+                                    Score scoreWither = objective.getScore("   Иссушителей");
+                                    scoreWither.setScore(Math.toIntExact(playerDataService.getByPlayerName(playerName).getKillCountWither()));
+                                }
+//                player.setScoreboard(board);
+                            }
+                        } ,20, 20);
 
-
-                    inventoryInteractEvent.getWhoClicked().getInventory().remove(itemStack);
-                    inventoryInteractEvent.getWhoClicked().getInventory().setItem(0, itemsUtils.getMyCustomItemStack(new ItemStack(Material.IRON_SWORD)));
-
-                } else if (count >= 300 && countPig >= 150 && countCow >= 150 && inventoryInteractEvent.getCurrentItem().getType().equals(Material.IRON_SWORD)) {
-
-                    inventoryInteractEvent.getWhoClicked().getInventory().remove(itemStack);
-                    inventoryInteractEvent.getWhoClicked().getInventory().setItem(0, itemsUtils.getMyCustomItemStack(new ItemStack(Material.GOLDEN_SWORD)));
-
-                } else if (count >= 400 && countPig >= 200 && countCow >= 200 && inventoryInteractEvent.getCurrentItem().getType().equals(Material.GOLDEN_SWORD)) {
-
-                    inventoryInteractEvent.getWhoClicked().getInventory().remove(itemStack);
-                    inventoryInteractEvent.getWhoClicked().getInventory().setItem(0, itemsUtils.getMyCustomItemStack(new ItemStack(Material.DIAMOND_SWORD)));
+                        player.sendMessage("Updated");
+                    }
                 }
             }
         }

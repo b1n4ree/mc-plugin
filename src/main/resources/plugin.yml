@@ -3,6 +3,7 @@ main: com.simplug.Main
 version: 1.0
 api-version: 1.13
 depend: [NBTAPI]
+author: binary
 
 commands:
   arena:
@@ -29,6 +30,6 @@ commands:
     description: Test command
     usage: /test
 
-  update:
-    description: Update info
-    usage: /update
+  diamondnbt:
+    description: Get diamond with NBT tag
+    usage: /diamondnbt
